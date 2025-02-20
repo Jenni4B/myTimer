@@ -10,7 +10,7 @@ html, body, #root {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(45deg, #72424d 30%, #FF8E53 90%);
+  background: linear-gradient(45deg, #582d37 30%, #FF8E53 90%);
   color: white;
   height: 100%; /* Take full height of the page */
   width: 100%; /* Take full width of the page */
