@@ -1,0 +1,26 @@
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #72424d 30%, #FF8E53 90%);
+  color: white;
+  height: 100%; /* Take full height of the page */
+  width: 100%; /* Take full width of the page */
+}
+
+.controlButton {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+}
