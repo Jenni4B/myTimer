@@ -6,7 +6,7 @@ A customizable timer interface to help users maintain concentration during work 
 1. Clone the repository:
    ```sh
    git clone https://github.com/Jenni4B/myTimer.git
-   cd focus-timer
+   cd myTimer
    
 3. Install basic dependencies
    ```sh
