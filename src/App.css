@@ -12,8 +12,8 @@ html, body, #root {
   justify-content: center;
   background: linear-gradient(45deg, #582d37 30%, #FF8E53 90%);
   color: white;
-  height: 100%; /* Take full height of the page */
-  width: 100%; /* Take full width of the page */
+  height: 100%;
+  width: 100%;
 }
 
 .controlButton {

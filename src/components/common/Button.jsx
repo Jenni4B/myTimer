@@ -1,27 +1,28 @@
-// the state of the button; either says "Start", "Pause", or "Resume"
-// depending on the state of the timer itself.
-// if the timer is paused and the button is clicked, the timer should resume.
-// if the timer is running and the button is clicked, the timer should pause.
-// if the timer hasn't started yet and the button is clicked, the timer should start.
+import React from "react";
 
-import { useState } from "react";
+const Button = ({ isRunning, isPaused, onStart, onPause, onResume }) => {
+  const getButtonClasses = () => {
+    if (!isRunning) return "bg-green-500 hover:bg-green-600"; // Start
+    if (isPaused) return "bg-blue-500 hover:bg-blue-600"; // Resume
+    return "bg-red-500 hover:bg-red-600"; // Pause
+  };
 
-
-const [buttonText, setButtonText] = useState("Start");
-
-// Button component
-
-const Button = ({ onClick }) => {
-
-    // Change button text based on the current state
-
-
-
-    // Button text
-    return (
-        <button onClick={onClick}>{buttonText}</button>
-    );
-
+  return (
+    <button
+      className={`px-4 py-2 rounded-md text-white font-semibold transition duration-300 ${getButtonClasses()}`}
+      onClick={() => {
+        if (!isRunning) {
+          onStart();
+        } else if (isPaused) {
+          onResume();
+        } else {
+          onPause();
+        }
+      }}
+    >
+      {isRunning ? (isPaused ? "Resume" : "Pause") : "Start"}
+    </button>
+  );
 };
 
 export default Button;
