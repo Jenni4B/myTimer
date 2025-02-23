@@ -1,78 +1,78 @@
 import { useState, useEffect } from "react";
 
-// TimerControls component
 const TimerControls = () => {
-    // State variables
-    const [customTime, setCustomTime] = useState(25); // User-defined time (default: 25 minutes)
-    const [minutes, setMinutes] = useState(25); // Current minutes left
-    const [seconds, setSeconds] = useState(0); // Current seconds left
-    const [isRunning, setIsRunning] = useState(false); // Timer status (running or stopped)
+  const [customTime, setCustomTime] = useState(25); // User-defined time (default: 25 minutes)
+  const [totalSeconds, setTotalSeconds] = useState(25 * 60); // Total seconds for timer
+  const [isRunning, setIsRunning] = useState(false); // Timer running state
 
-    // 🕒 useEffect: Runs when timer state changes
-    useEffect(() => {
-        let timer; // Declare a timer variable
+  // the countdown logic
+  useEffect(() => {
+    let timer;
+    if (isRunning && totalSeconds > 0) {
+      timer = setInterval(() => {
+        setTotalSeconds((prev) => prev - 1);  // Decrement by 1 second
+      }, 1000);
+    } else if (totalSeconds === 0) {
+      setIsRunning(false); // Auto-stop when timer hits 0
+      clearInterval(timer);
+    }
+    return () => clearInterval(timer); // cleans up on unmount
+  }, [isRunning, totalSeconds]);
 
-        if (isRunning && (minutes > 0 || seconds > 0)) {
-            console.log("⏳ Timer is running →", minutes, "min", seconds, "sec");
+  // totalSeconds → mm:ss for display
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
 
-            timer = setInterval(() => {
-                setSeconds((prevSeconds) => {
-                    if (prevSeconds === 0) {
-                        if (minutes === 0) {
-                            clearInterval(timer); // Stop timer at 00:00
-                            setIsRunning(false);
-                            return 0;
-                        }
-                        setMinutes((prevMinutes) => prevMinutes - 1); // Reduce minutes
-                        return 59; // Reset seconds to 59
-                    }
-                    return prevSeconds - 1; // Decrease seconds
-                });
-            }, 1000);
-        }
+  // start timer
+  const onStart = () => {
+    if (!isRunning) {
+      setTotalSeconds(customTime * 60); // Set based on user-defined customTime
+      setIsRunning(true);
+    }
+  };
 
-        return () => clearInterval(timer); // Cleanup when unmounting or stopping
-    }, [isRunning, minutes, seconds]); // Dependency array
+  // stop timer
+  const onStop = () => setIsRunning(false);
 
-    // ▶️ Start Timer
-    const onStart = () => {
-        setIsRunning(true);
-        setMinutes(customTime); // Set the timer to user-defined time
-        setSeconds(0); // Reset seconds to 0
-    };
+  // reset timer
+  const onReset = () => {
+    setIsRunning(false);
+    setTotalSeconds(customTime * 60); // resets to either the default or user-defined time if changed
+  };
 
-    // ⏸ Stop Timer
-    const onStop = () => setIsRunning(false);
+  // Handle custom time input change
+  const handleCustomTimeChange = (e) => {
+    const newTime = Math.max(0, Number(e.target.value));
+    setCustomTime(newTime);
+    setTotalSeconds(newTime * 60);
+  };
 
-    // 🔄 Reset Timer
-    const onReset = () => {
-        setIsRunning(false);
-        setCustomTime(25); // Reset custom time to 25
-        setMinutes(25); // Reset minutes
-        setSeconds(0); // Reset seconds
-    };
+  return (
+    <div className="timer-container">
+      <h2>
+        ⏲ {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+      </h2>
 
-    return (
-        <div className="timer-container">
-            <h2>
-                ⏲ {String(minutes).padStart(2, "0")}:
-                {String(seconds).padStart(2, "0")}
-            </h2>
+      {/* Custom Time Input */}
+      <input
+        type="number"
+        value={customTime}
+        onChange={handleCustomTimeChange} // Updates both customTime & totalSeconds
+        disabled={isRunning} // Disable while timer is running
+      />
 
-            {/* Custom Time Input */}
-            <input
-                type="number"
-                value={customTime}
-                onChange={(e) => setCustomTime(Number(e.target.value))} // Convert input to number
-                disabled={isRunning} // Disable when running
-            />
-
-            {/* Control Buttons */}
-            <button className="controlButton" onClick={onStart} disabled={isRunning}>Start</button>
-            <button className="controlButton" onClick={onStop} disabled={!isRunning}>Stop</button>
-            <button className="controlButton" onClick={onReset}>Reset</button>
-        </div>
-    );
+      {/* Control Buttons */}
+      <button className="controlButton" onClick={onStart} disabled={isRunning}>
+        Start
+      </button>
+      <button className="controlButton" onClick={onStop} disabled={!isRunning}>
+        Stop
+      </button>
+      <button className="controlButton" onClick={onReset} disabled={isRunning}>
+        Reset
+      </button>
+    </div>
+  );
 };
 
 export default TimerControls;
