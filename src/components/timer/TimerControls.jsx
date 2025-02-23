@@ -77,7 +77,7 @@ const TimerControls = () => {
         />
       </div>
 
-      {/* Use the new Button component */}
+      {/* New Button component 2/23/25 */}
       <Button
         isRunning={isRunning}
         isPaused={isPaused}
@@ -86,10 +86,14 @@ const TimerControls = () => {
         onResume={onResume}
       />
 
-      <button className="controlButton" onClick={onReset} disabled={isRunning}>
+      {/* When the timer is paused you can reset the timer 
+      but if the timer is running the reset button is disabled. 2/23/25 */}
+
+      <button className="controlButton" onClick={onReset} disabled={isRunning && !isPaused}> 
         Reset
       </button>
     </div>
+    
   );
 };
 

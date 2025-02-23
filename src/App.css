@@ -1,3 +1,8 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+
 html, body, #root {
   height: 100%;
   width: 100%;
@@ -24,3 +29,7 @@ html, body, #root {
   display: inline-block;
   font-size: 16px;
 }
+/* 
+.App {
+  @apply flex flex-col items-center justify-center bg-gradient-to-r from-[#582d37] to-[#FF8E53] text-white h-full w-full;
+} */
