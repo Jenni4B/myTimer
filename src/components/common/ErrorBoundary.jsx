@@ -1,3 +1,37 @@
-// this page will be for error handling purposes
+import { Component } from "react";
 
-import { useState } from "react";
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("Caught by ErrorBoundary:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="error-container text-center p-4">
+          <h2 className="text-red-500 text-xl font-bold">Something went wrong!</h2>
+          <p>Please refresh the page or try again later.</p>
+          <button
+            className="bg-red-500 text-white p-2 mt-2 rounded"
+            onClick={() => window.location.reload()}
+          >
+            Reload App
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;

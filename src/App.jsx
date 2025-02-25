@@ -1,12 +1,11 @@
 import './App.css';
-// import {React} from "react";
-import TimerCard from "./components/common/Card";
+import Card from "./components/common/Card";
 
 function App() {
     return (
         <div className='App'>
             <h1 id='headerTimeWise'>Time Wise</h1>
-            <TimerCard />
+            <Card />
         </div>
     );
 }
