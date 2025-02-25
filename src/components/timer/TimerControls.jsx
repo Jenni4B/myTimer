@@ -8,16 +8,37 @@ const TimerControls = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Request notification permission when component mounts
+  useEffect(() => {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  // Function to show notification
+  const showNotification = (title, message) => {
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(title, { body: message });
+    }
+  };
+
+  // Function to handle timer reaching zero
+  const handleTimerEnd = () => {
+    showNotification("⏰ Time's Up!", "Your timer has finished. Take a break!");
+  };
+
+  // Effect to handle timer countdown
   useEffect(() => {
     let timer;
     if (isRunning && !isPaused && totalSeconds > 0) {
       timer = setInterval(() => {
         setTotalSeconds((prev) => prev - 1);
       }, 1000);
-    } else if (totalSeconds === 0) {
+    } else if (totalSeconds === 0 && isRunning) {
       setIsRunning(false);
       setIsPaused(false);
-      clearInterval(timer);
+      handleTimerEnd(); // Call the function when timer hits 0
     }
     return () => clearInterval(timer);
   }, [isRunning, isPaused, totalSeconds]);
@@ -28,19 +49,17 @@ const TimerControls = () => {
   const onStart = () => {
     if (customMinutes === 0 && customSeconds === 0) {
       setErrorMessage("Please set a time greater than 0");
-      setTimeout(() => setErrorMessage(""), 3000); // Clear error after 3 seconds
+      setTimeout(() => setErrorMessage(""), 3000);
     } else {
       setTotalSeconds(customMinutes * 60 + customSeconds);
       setIsRunning(true);
       setIsPaused(false);
-      setErrorMessage(""); // Clear any existing error message
+      setErrorMessage("");
     }
   };
 
   const onPause = () => setIsPaused(true);
-
   const onResume = () => setIsPaused(false);
-
   const onReset = () => {
     setIsRunning(false);
     setIsPaused(false);
@@ -82,28 +101,19 @@ const TimerControls = () => {
           placeholder="Seconds"
         />
       </div>
+
       {errorMessage && (
-        <div className="error-message" style={{ color: 'pink', marginBottom: '10px' }}>
+        <div className="error-message" style={{ color: "pink", marginBottom: "10px" }}>
           {errorMessage}
         </div>
-)}
-      {/* New Button component 2/23/25 */}
-      <Button
-        isRunning={isRunning}
-        isPaused={isPaused}
-        onStart={onStart}
-        onPause={onPause}
-        onResume={onResume}
-      />
+      )}
 
-      {/* When the timer is paused you can reset the timer 
-      but if the timer is running the reset button is disabled. 2/23/25 */}
+      <Button isRunning={isRunning} isPaused={isPaused} onStart={onStart} onPause={onPause} onResume={onResume} />
 
-      <button className="controlButton" onClick={onReset} disabled={isRunning && !isPaused}> 
+      <button className="controlButton" onClick={onReset} disabled={isRunning && !isPaused}>
         Reset
       </button>
     </div>
-    
   );
 };
 

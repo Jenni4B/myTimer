@@ -5,7 +5,9 @@ html, body, #root {
   width: 100%;
   margin: 0 auto;
   padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 .App {
   display: flex;
   flex-direction: column;
@@ -15,8 +17,16 @@ html, body, #root {
   color: white;
   height: 100%;
   width: 100%;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* DARK MODE THEME */
+body.dark .App {
+  background: linear-gradient(45deg, #392461 30%, #7630c5 90%);
+  color: #e0e0e0;
+}
+
+/* CONTROL BUTTONS */
 .controlButton {
   margin: 10px;
   padding: 10px;
@@ -24,32 +34,51 @@ html, body, #root {
   text-align: center;
   display: inline-block;
   font-size: 16px;
+  background-color: #dfdb14;
+  color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark .controlButton {
+  background-color: #444;
+  color: white;
 }
 
 /* NAVIGATION BAR */
-
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .navbar ul {
-    display: flex;
-    list-style-type: none;
+  display: flex;
+  list-style-type: none;
 }
 
 .navbar ul li {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 .navbar ul li a {
-    text-decoration: none;
-    color: #dfdb14;
-    font-weight: bold;
+  text-decoration: none;
+  color: #dfdb14;
+  font-weight: bold;
+  transition: color 0.3s ease;
 }
 
 .navbar ul li a:hover {
-    color: #aaa825;
+  color: #aaa825;
+}
+
+/* DARK MODE NAVBAR */
+
+body.dark .navbar ul li a {
+  color: #bb86fc;
+}
+
+body.dark .navbar ul li a:hover {
+  color: #9a6de9;
 }
