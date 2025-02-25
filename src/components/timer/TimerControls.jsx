@@ -7,7 +7,7 @@ const TimerControls = () => {
   const [totalSeconds, setTotalSeconds] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     let timer;
     if (isRunning && !isPaused && totalSeconds > 0) {
@@ -26,9 +26,15 @@ const TimerControls = () => {
   const seconds = totalSeconds % 60;
 
   const onStart = () => {
-    setTotalSeconds(customMinutes * 60 + customSeconds);
-    setIsRunning(true);
-    setIsPaused(false);
+    if (customMinutes === 0 && customSeconds === 0) {
+      setErrorMessage("Please set a time greater than 0");
+      setTimeout(() => setErrorMessage(""), 3000); // Clear error after 3 seconds
+    } else {
+      setTotalSeconds(customMinutes * 60 + customSeconds);
+      setIsRunning(true);
+      setIsPaused(false);
+      setErrorMessage(""); // Clear any existing error message
+    }
   };
 
   const onPause = () => setIsPaused(true);
@@ -76,7 +82,11 @@ const TimerControls = () => {
           placeholder="Seconds"
         />
       </div>
-
+      {errorMessage && (
+        <div className="error-message" style={{ color: 'pink', marginBottom: '10px' }}>
+          {errorMessage}
+        </div>
+)}
       {/* New Button component 2/23/25 */}
       <Button
         isRunning={isRunning}
