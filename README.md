@@ -17,11 +17,13 @@ A customizable timer interface to help users maintain concentration during work 
 
 ## How to Use
 1. Start a Focus Session
+   You can pick a custom session, adjusting the minutes AND seconds
 2. Click the "Start" button
 3. The timer will begin counting down from 25:00 or whatever custom time you chose
-4. Reset the Timer --- Resets timer
+4. You can pause, resume or reset the timer. Timer resets to the default value or whatever you choose
 
-## Obstacles
-1. When you hit start it skips the next number that's supposed to happen on the minute side
-2. Future fixes on the Stop Button, it should pause, not completely restart, oops
-3. I should make it so the timer restarts if set on a custom time
+## Updates
+
+# Update 2/25/2025
+1. The Start Button becomes a resume and pause button depending on the state of the timer.
+2. The reset button is unavaliable when the timer is counting down but can be pressed when the timer is paused.
