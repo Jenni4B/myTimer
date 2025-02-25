@@ -1,18 +1,20 @@
 import { Component } from "react";
 
-class ErrorBoundary extends Component {
+class ErrorBoundary extends Component { 
+
   constructor(props) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getStateFromERro(error) {
-    console.error("ErrorBoundary:", error);
-    return { hasError: true };
-  }
+//   static getStateFromERro(error) {
+//     console.error("ErrorBoundary:", error);
+//     return { hasError: true };
+//   }
 
   componentDidCatch(error, errorInfo) {
     console.error("Caught by ErrorBoundary:", error, errorInfo);
+    return { hasError: true };
   }
 
   render() {
