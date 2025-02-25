@@ -1,12 +1,26 @@
 import './App.css';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Card from "./components/common/Card";
+import Settings from './components/settings/Settings';
 
 function App() {
     return (
-        <div className='App'>
-            <h1 id='headerTimeWise'>Time Wise</h1>
-            <Card />
-        </div>
+        <Router>
+            <div className='App'>
+                <nav className="navbar">
+                    <h1 id='headerTimeWise'>Time Wise</h1>
+                    <ul>
+                        <li><Link to="/">Timer</Link></li>
+                        <li><Link to="/settings">Settings</Link></li>
+                    </ul>
+                </nav>
+
+                <Routes>
+                    <Route path="/" element={<Card />} />
+                    <Route path="/settings" element={<Settings />} />
+                </Routes>
+            </div>
+        </Router>
     );
 }
 

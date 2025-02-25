@@ -1,10 +1,11 @@
+/* MAIN APP */
+
 html, body, #root {
   height: 100%;
   width: 100%;
   margin: 0 auto;
   padding: 0;
 }
-
 .App {
   display: flex;
   flex-direction: column;
@@ -23,4 +24,32 @@ html, body, #root {
   text-align: center;
   display: inline-block;
   font-size: 16px;
+}
+
+/* NAVIGATION BAR */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.navbar ul {
+    display: flex;
+    list-style-type: none;
+}
+
+.navbar ul li {
+    margin-left: 1rem;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #dfdb14;
+    font-weight: bold;
+}
+
+.navbar ul li a:hover {
+    color: #aaa825;
 }
