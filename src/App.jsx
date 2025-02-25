@@ -11,17 +11,6 @@ function App() {
         document.body.className = theme;
     }, [theme]);
 
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) setTheme(savedTheme);
-    }, []);
-    
-    useEffect(() => {
-        document.body.className = theme;
-        localStorage.setItem('theme', theme);
-    }, [theme]);
-    
-
     return (
         <Router>
             <div className={`App ${theme}`}>

@@ -34,7 +34,7 @@ body.dark .App {
   text-align: center;
   display: inline-block;
   font-size: 16px;
-  background-color: #dfdb14;
+  background-color: #929010;
   color: black;
   transition: background-color 0.3s ease, color 0.3s ease;
 }

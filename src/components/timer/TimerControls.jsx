@@ -41,7 +41,7 @@ const TimerControls = () => {
       handleTimerEnd(); // Call the function when timer hits 0
     }
     return () => clearInterval(timer);
-  }, [isRunning, isPaused, totalSeconds]);
+  }, [isRunning, isPaused, totalSeconds, handleTimerEnd]);
 
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
