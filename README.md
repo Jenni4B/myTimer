@@ -22,8 +22,8 @@ A customizable timer interface to help users maintain concentration during work 
 3. The timer will begin counting down from 25:00 or whatever custom time you chose
 4. You can pause, resume or reset the timer. Timer resets to the default value or whatever you choose
 
-## Updates
+# Updates
 
-# Update 2/25/2025
+## Update 2/25/2025
 1. The Start Button becomes a resume and pause button depending on the state of the timer.
 2. The reset button is unavaliable when the timer is counting down but can be pressed when the timer is paused.
