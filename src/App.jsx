@@ -5,10 +5,13 @@ import Card from "./components/common/Card";
 import Settings from './components/settings/Settings';
 
 function App() {
-    const [theme, setTheme] = useState('light'); // Light by default
+    // ✅ Load saved theme from localStorage (default to 'light')
+    const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
     useEffect(() => {
+        // ✅ Apply theme to <body> and save to localStorage
         document.body.className = theme;
+        localStorage.setItem('theme', theme);
     }, [theme]);
 
     return (

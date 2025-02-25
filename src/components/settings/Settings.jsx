@@ -12,7 +12,7 @@ const Settings = ({ setTheme, theme }) => {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) setTheme(savedTheme);
-  }, [setTheme]); // ✅ Add `setTheme` as a dependency to prevent warnings
+  }, [setTheme]);
 
   return (
     <div className="settings-container">

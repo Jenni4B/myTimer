@@ -24,13 +24,13 @@ const TimerControls = () => {
   };
 
   // Function to handle timer reaching zero
-  const handleTimerEnd = () => {
-    showNotification("⏰ Time's Up!", "Your timer has finished. Take a break!");
-  };
-
   // Effect to handle timer countdown
   useEffect(() => {
     let timer;
+    const handleTimerEnd = () => {
+      showNotification("⏰ Time's Up!", "Your timer has finished. Take a break!");
+    };
+  
     if (isRunning && !isPaused && totalSeconds > 0) {
       timer = setInterval(() => {
         setTotalSeconds((prev) => prev - 1);
@@ -41,7 +41,7 @@ const TimerControls = () => {
       handleTimerEnd(); // Call the function when timer hits 0
     }
     return () => clearInterval(timer);
-  }, [isRunning, isPaused, totalSeconds, handleTimerEnd]);
+  }, [isRunning, isPaused, totalSeconds]);
 
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
