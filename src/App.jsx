@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Card from "./components/common/Card";
 import Settings from './components/settings/Settings';
+import Progress from "./components/analytics/Progress";
 
 function App() {
-    // ✅ Load saved theme from localStorage (default to 'light')
+    // Load saved theme from localStorage (default to 'light')
     const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
     useEffect(() => {
-        // ✅ Apply theme to <body> and save to localStorage
+        // Apply theme to <body> and save to localStorage
         document.body.className = theme;
         localStorage.setItem('theme', theme);
     }, [theme]);
@@ -22,12 +23,14 @@ function App() {
                     <ul>
                         <li><Link to="/">Timer</Link></li>
                         <li><Link to="/settings">Settings</Link></li>
+                        <li><Link to="/progress">Progress</Link></li>
                     </ul>
                 </nav>
 
                 <Routes>
                     <Route path="/" element={<Card />} />
                     <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
+                    <Route path="/progress" element={<Progress />} />
                 </Routes>
             </div>
         </Router>

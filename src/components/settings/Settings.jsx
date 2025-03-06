@@ -21,6 +21,7 @@ const Settings = ({ setTheme, theme }) => {
         <input type="checkbox" onChange={toggleTheme} checked={theme === 'dark'} />
         Dark Mode
       </label>
+      
     </div>
   );
 };
