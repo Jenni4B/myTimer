@@ -1,24 +1,30 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-const useThemeMode = () => {
-  const [theme, setTheme] = useState("light");
-
-  // Load theme from localStorage when the component mounts
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) setTheme(savedTheme);
-  }, []);
-
-  // Toggle theme and store in localStorage
+const ThemeMode = ({ setTheme, theme }) => {
+  // Toggle theme function
   const toggleTheme = () => {
-    setTheme((prevTheme) => {
-      const newTheme = prevTheme === "light" ? "dark" : "light";
+    setTheme((prev) => {
+      const newTheme = prev === "light" ? "dark" : "light";
       localStorage.setItem("theme", newTheme);
       return newTheme;
     });
   };
 
-  return { theme, toggleTheme };
+  // Load theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) setTheme(savedTheme);
+  }, [setTheme]); // ✅ Runs when `setTheme` changes
+
+  return (
+    <div className="themeMode-container">
+      <h2>Theme Mode</h2>
+      <label>
+        <input type="checkbox" onChange={toggleTheme} checked={theme === "dark"} />
+        Dark Mode
+      </label>
+    </div>
+  );
 };
 
-export default useThemeMode;
+export default ThemeMode;

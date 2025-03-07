@@ -1,11 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Button from "../common/Button";
 import { useAchievements } from "../../context/AchievementsContext";
-import useThemeMode from "../hooks/themeMode"; // 🔥 Dark mode hook
-import CustomTime from "../settings/customTime"; // 🔥 Custom time component
-
 const TimerControls = () => {
-  const { theme, toggleTheme } = useThemeMode(); // ✅ Dark mode integration
   const [totalSeconds, setTotalSeconds] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -28,19 +24,7 @@ const TimerControls = () => {
     setTotalSeconds(minutes * 60 + seconds);
   }, []);
 
-  useEffect(() => {
-    let timer;
-    if (isRunning && !isPaused && totalSeconds > 0) {
-      timer = setInterval(() => setTotalSeconds((prev) => prev - 1), 1000);
-    } else if (totalSeconds === 0 && isRunning) {
-      setIsRunning(false);
-      setIsPaused(false);
-      handleSessionComplete();
-    }
-    return () => clearInterval(timer);
-  }, [isRunning, isPaused, totalSeconds,]);
-
-  const handleSessionComplete = () => {
+  const handleSessionComplete = useCallback(() => {
     const newCompletedSessions = completedSessions + 1;
     setCompletedSessions(newCompletedSessions);
     setSessionStreak(sessionStreak + 1);
@@ -51,15 +35,19 @@ const TimerControls = () => {
     if (newCompletedSessions === 10) unlockAchievement("3");
     if (newCompletedSessions === 25) unlockAchievement("4");
     if (newCompletedSessions * 25 >= 300) unlockAchievement("5");
-  };
+  }, [completedSessions, sessionStreak, unlockAchievement]);
 
-  const setCustomTime = (minutes, seconds) => {
-    if (!isRunning) {
-      setTotalSeconds(minutes * 60 + seconds);
-      localStorage.setItem("customMinutes", minutes);
-      localStorage.setItem("customSeconds", seconds);
+  useEffect(() => {
+    let timer;
+    if (isRunning && !isPaused && totalSeconds > 0) {
+      timer = setInterval(() => setTotalSeconds((prev) => prev - 1), 1000);
+    } else if (totalSeconds === 0 && isRunning) {
+      setIsRunning(false);
+      setIsPaused(false);
+      handleSessionComplete();
     }
-  };
+    return () => clearInterval(timer);
+  }, [isRunning, isPaused, totalSeconds, handleSessionComplete]);
 
   const onStart = () => {
     setIsRunning(true);
@@ -79,7 +67,7 @@ const TimerControls = () => {
   };
 
   return (
-    <div className={`timer-container ${theme}`}>
+    <div className='timer-container'>
       <h2>
         {String(Math.floor(totalSeconds / 60)).padStart(2, "0")}:
         {String(totalSeconds % 60).padStart(2, "0")}

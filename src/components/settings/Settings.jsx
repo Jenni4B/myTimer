@@ -1,22 +1,30 @@
-import useThemeMode from "../hooks/themeMode";
-import CustomTime from "./customTime";
 import { useState } from "react";
+import ThemeMode from "../hooks/themeMode";
+import CustomTime from "./customTime";
 
-const Settings = ({ setCustomTime }) => {
-  const { theme, toggleTheme } = useThemeMode();
-  
+const Settings = () => {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [customTime, setCustomTime] = useState({
+    minutes: 25,
+    seconds: 0,
+  });
+
+  // Function to handle time update
+  const handleTimeChange = (minutes, seconds) => {
+    setCustomTime({ minutes, seconds });
+  };
+
   return (
-    <div className="settings-container">
-      <h2>Settings</h2>
-      
-      {/* Dark Mode Toggle */}
-      <label>
-        <input type="checkbox" onChange={toggleTheme} checked={theme === "dark"} />
-        Dark Mode
-      </label>
+    <div>
+      <div className="settings-container">
+        <h2>Settings</h2>
 
-      {/* Custom Time Input */}
-      <CustomTime setCustomTime={setCustomTime} />
+        {/* Theme Mode Component */}
+        <ThemeMode setTheme={setTheme} theme={theme} />
+
+        {/* Custom Time Component */}
+        <CustomTime onTimeChange={handleTimeChange} />
+      </div>
     </div>
   );
 };
