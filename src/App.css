@@ -18,11 +18,9 @@ html, body, #root {
   height: 100%;
   width: 100%;
   transition: background 0.3s ease, color 0.3s ease;
+  padding: 60px;
 }
 
-label {
-  margin-bottom: 10px;
-}
 
 /* DARK MODE THEME */
 body.dark .App {
