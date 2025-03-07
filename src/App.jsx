@@ -18,7 +18,7 @@ function App() {
     }, [theme]);
 
     return (
-        <AchievementsProvider> {/* ✅ Wrap the app for achievements */}
+        <AchievementsProvider> {/* Wrap the app for achievements */}
             <Router>
                 <div className={`App ${theme}`}>
                     <nav className="navbar">

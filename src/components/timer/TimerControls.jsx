@@ -1,61 +1,69 @@
 import { useState, useEffect } from "react";
 import Button from "../common/Button";
+import { useAchievements } from "../../context/AchievementsContext";
+import useThemeMode from "../hooks/themeMode"; // 🔥 Dark mode hook
+import CustomTime from "../settings/customTime"; // 🔥 Custom time component
 
 const TimerControls = () => {
-  const [customMinutes, setCustomMinutes] = useState(25);
-  const [customSeconds, setCustomSeconds] = useState(0);
+  const { theme, toggleTheme } = useThemeMode(); // ✅ Dark mode integration
   const [totalSeconds, setTotalSeconds] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [completedSessions, setCompletedSessions] = useState(0);
+  const [sessionStreak, setSessionStreak] = useState(0);
+  const { unlockAchievement } = useAchievements();
 
-  // Request notification permission when component mounts
   useEffect(() => {
-    if ("Notification" in window && Notification.permission !== "granted") {
-      Notification.requestPermission();
-    }
+    const savedSessions = localStorage.getItem("completedSessions");
+    const savedStreak = localStorage.getItem("sessionStreak");
+    const savedMinutes = localStorage.getItem("customMinutes");
+    const savedSeconds = localStorage.getItem("customSeconds");
+
+    if (savedSessions) setCompletedSessions(parseInt(savedSessions, 10));
+    if (savedStreak) setSessionStreak(parseInt(savedStreak, 10));
+    
+    // Load custom time if available
+    const minutes = savedMinutes ? parseInt(savedMinutes, 10) : 25;
+    const seconds = savedSeconds ? parseInt(savedSeconds, 10) : 0;
+    setTotalSeconds(minutes * 60 + seconds);
   }, []);
 
-  // Function to show notification
-  const showNotification = (title, message) => {
-    if ("Notification" in window && Notification.permission === "granted") {
-      new Notification(title, { body: message });
-    }
-  };
-
-  // Function to handle timer reaching zero
-  // Effect to handle timer countdown
   useEffect(() => {
     let timer;
-    const handleTimerEnd = () => {
-      showNotification("⏰ Time's Up!", "Your timer has finished. Take a break!");
-    };
-  
     if (isRunning && !isPaused && totalSeconds > 0) {
-      timer = setInterval(() => {
-        setTotalSeconds((prev) => prev - 1);
-      }, 1000);
+      timer = setInterval(() => setTotalSeconds((prev) => prev - 1), 1000);
     } else if (totalSeconds === 0 && isRunning) {
       setIsRunning(false);
       setIsPaused(false);
-      handleTimerEnd(); // Call the function when timer hits 0
+      handleSessionComplete();
     }
     return () => clearInterval(timer);
-  }, [isRunning, isPaused, totalSeconds]);
+  }, [isRunning, isPaused, totalSeconds,]);
 
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
+  const handleSessionComplete = () => {
+    const newCompletedSessions = completedSessions + 1;
+    setCompletedSessions(newCompletedSessions);
+    setSessionStreak(sessionStreak + 1);
+
+    // Unlock achievements
+    if (newCompletedSessions === 1) unlockAchievement("1");
+    if (sessionStreak + 1 === 3) unlockAchievement("2");
+    if (newCompletedSessions === 10) unlockAchievement("3");
+    if (newCompletedSessions === 25) unlockAchievement("4");
+    if (newCompletedSessions * 25 >= 300) unlockAchievement("5");
+  };
+
+  const setCustomTime = (minutes, seconds) => {
+    if (!isRunning) {
+      setTotalSeconds(minutes * 60 + seconds);
+      localStorage.setItem("customMinutes", minutes);
+      localStorage.setItem("customSeconds", seconds);
+    }
+  };
 
   const onStart = () => {
-    if (customMinutes === 0 && customSeconds === 0) {
-      setErrorMessage("Please set a time greater than 0");
-      setTimeout(() => setErrorMessage(""), 3000);
-    } else {
-      setTotalSeconds(customMinutes * 60 + customSeconds);
-      setIsRunning(true);
-      setIsPaused(false);
-      setErrorMessage("");
-    }
+    setIsRunning(true);
+    setIsPaused(false);
   };
 
   const onPause = () => setIsPaused(true);
@@ -63,50 +71,19 @@ const TimerControls = () => {
   const onReset = () => {
     setIsRunning(false);
     setIsPaused(false);
-    setTotalSeconds(customMinutes * 60 + customSeconds);
-  };
-
-  const handleCustomMinutesChange = (e) => {
-    const newMinutes = Math.max(0, Number(e.target.value));
-    setCustomMinutes(newMinutes);
-    setTotalSeconds(newMinutes * 60 + customSeconds);
-  };
-
-  const handleCustomSecondsChange = (e) => {
-    const newSeconds = Math.max(0, Math.min(59, Number(e.target.value)));
-    setCustomSeconds(newSeconds);
-    setTotalSeconds(customMinutes * 60 + newSeconds);
+    
+    const savedMinutes = localStorage.getItem("customMinutes") || 25;
+    const savedSeconds = localStorage.getItem("customSeconds") || 0;
+    setTotalSeconds(savedMinutes * 60 + savedSeconds);
+    setSessionStreak(0); // Reset streak
   };
 
   return (
-    <div className="timer-container">
+    <div className={`timer-container ${theme}`}>
       <h2>
-        {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+        {String(Math.floor(totalSeconds / 60)).padStart(2, "0")}:
+        {String(totalSeconds % 60).padStart(2, "0")}
       </h2>
-
-      <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-        <input
-          type="number"
-          value={customMinutes}
-          onChange={handleCustomMinutesChange}
-          disabled={isRunning}
-          placeholder="Minutes"
-        />
-        <input
-          type="number"
-          max="59"
-          value={customSeconds}
-          onChange={handleCustomSecondsChange}
-          disabled={isRunning}
-          placeholder="Seconds"
-        />
-      </div>
-
-      {errorMessage && (
-        <div className="error-message" style={{ color: "pink", marginBottom: "10px" }}>
-          {errorMessage}
-        </div>
-      )}
 
       <Button isRunning={isRunning} isPaused={isPaused} onStart={onStart} onPause={onPause} onResume={onResume} />
 
