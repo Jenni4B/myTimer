@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Card from "./components/common/Card";
 import Settings from './components/settings/Settings';
 import Progress from "./components/analytics/Progress";
+import Achievements from "./components/achievements/achievements"; // ✅ Ensure correct casing
+import { AchievementsProvider } from "./context/achievementsContext"; // ✅ Ensure correct casing
 
 function App() {
     // Load saved theme from localStorage (default to 'light')
@@ -16,24 +18,28 @@ function App() {
     }, [theme]);
 
     return (
-        <Router>
-            <div className={`App ${theme}`}>
-                <nav className="navbar">
-                    <h1 id='headerTimeWise'>Time Wise</h1>
-                    <ul>
-                        <li><Link to="/">Timer</Link></li>
-                        <li><Link to="/settings">Settings</Link></li>
-                        <li><Link to="/progress">Progress</Link></li>
-                    </ul>
-                </nav>
+        <AchievementsProvider> {/* ✅ Wrap the app for achievements */}
+            <Router>
+                <div className={`App ${theme}`}>
+                    <nav className="navbar">
+                        <h1 id='headerTimeWise'>Time Wise</h1>
+                        <ul>
+                            <li><Link to="/">Timer</Link></li>
+                            <li><Link to="/settings">Settings</Link></li>
+                            <li><Link to="/progress">Progress</Link></li>
+                            <li><Link to="/achievements">Achievements</Link></li> {/* ✅ New Link */}
+                        </ul>
+                    </nav>
 
-                <Routes>
-                    <Route path="/" element={<Card />} />
-                    <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
-                    <Route path="/progress" element={<Progress />} />
-                </Routes>
-            </div>
-        </Router>
+                    <Routes>
+                        <Route path="/" element={<Card />} />
+                        <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
+                        <Route path="/progress" element={<Progress />} />
+                        <Route path="/achievements" element={<Achievements />} /> {/* ✅ New Route */}
+                    </Routes>
+                </div>
+            </Router>
+        </AchievementsProvider>
     );
 }
 
