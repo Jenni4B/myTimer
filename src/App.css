@@ -20,6 +20,10 @@ html, body, #root {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
+label {
+  margin-bottom: 10px;
+}
+
 /* DARK MODE THEME */
 body.dark .App {
   background: linear-gradient(45deg, #392461 30%, #7630c5 90%);

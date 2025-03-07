@@ -1,11 +1,13 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+
 import Card from "./components/common/Card";
 import Settings from './components/settings/Settings';
 import Progress from "./components/analytics/Progress";
-import Achievements from "./components/achievements/achievements"; // ✅ Ensure correct casing
-import { AchievementsProvider } from "./context/achievementsContext"; // ✅ Ensure correct casing
+
+import Achievements from "./components/achievements/achievements";
+import { AchievementsProvider } from "./context/achievementsContext";
 
 function App() {
     // Load saved theme from localStorage (default to 'light')

@@ -23,23 +23,27 @@ const CustomTime = ({ onTimeChange }) => {
   return (
     <div>
       <h3>Set Custom Pomodoro Time</h3>
-      <label>
-        Minutes:
-        <input
-          type="number"
-          value={minutes}
-          onChange={(e) => setMinutes(Number(e.target.value))}
-        />
-      </label>
-      <label>
-        Seconds:
-        <input
-          type="number"
-          value={seconds}
-          onChange={(e) => setSeconds(Number(e.target.value))}
-        />
-      </label>
-      <button onClick={handleSave}>Save</button>
+      <div>
+        <label>
+          Minutes:
+          <input
+            type="number"
+            value={minutes}
+            onChange={(e) => setMinutes(Number(e.target.value))}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Seconds:
+          <input
+            type="number"
+            value={seconds}
+            onChange={(e) => setSeconds(Number(e.target.value))}
+          />
+        </label>
+      </div>
+        <button onClick={handleSave}>Save</button>
     </div>
   );
 };
