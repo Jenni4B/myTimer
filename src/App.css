@@ -51,6 +51,8 @@ body.dark .controlButton {
   align-items: center;
   padding: 1rem;
   transition: background-color 0.3s ease;
+  position: fixed;
+  top: 0;
 }
 
 .navbar ul {

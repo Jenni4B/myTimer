@@ -9,6 +9,7 @@ const Achievements = () => {
           {achievements.map((ach) => (
             <li key={ach.id} style={{ color: ach.unlocked ? "green" : "gray" }}>
               {ach.unlocked ? "✅" : "🔒"} {ach.title}
+              {ach.description && <p>{ach.description}</p>}
             </li>
           ))}
         </ul>
