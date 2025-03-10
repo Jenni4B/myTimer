@@ -1,42 +1,34 @@
 import { useState, useEffect } from "react";
 
-const CustomTime = ({ onTimeChange }) => {
-  const [minutes, setMinutes] = useState(25);
+const BreakTimeSettings = () => {
+  const [minutes, setMinutes] = useState(5);
   const [seconds, setSeconds] = useState(0);
 
-  // Load custom time from localStorage on mount
+  // Load break time settings from localStorage on mount
   useEffect(() => {
-    const savedMinutes = localStorage.getItem("focusMinutes") || localStorage.getItem("customMinutes");
-    const savedSeconds = localStorage.getItem("focusSeconds") || localStorage.getItem("customSeconds");
+    const savedMinutes = localStorage.getItem("breakMinutes");
+    const savedSeconds = localStorage.getItem("breakSeconds");
 
     if (savedMinutes) setMinutes(parseInt(savedMinutes, 10));
     if (savedSeconds) setSeconds(parseInt(savedSeconds, 10));
   }, []);
 
-  // Save custom time to localStorage & notify parent
+  // Save break time settings to localStorage
   const handleSave = () => {
     // Validate that the time isn't 0:00
     if (minutes === 0 && seconds === 0) {
-      alert("Focus time cannot be 0:00. Please set a valid time.");
+      alert("Break time cannot be 0:00. Please set a valid time.");
       return;
     }
 
-    // Save to both old and new keys for backward compatibility
-    localStorage.setItem("customMinutes", minutes);
-    localStorage.setItem("customSeconds", seconds);
-    localStorage.setItem("focusMinutes", minutes);
-    localStorage.setItem("focusSeconds", seconds);
-    
-    if (onTimeChange) {
-      onTimeChange(minutes, seconds);
-    }
-    
-    alert("Focus time settings saved!");
+    localStorage.setItem("breakMinutes", minutes);
+    localStorage.setItem("breakSeconds", seconds);
+    alert("Break time settings saved!");
   };
 
   return (
-    <div className="p-4 border border-gray-700 rounded-lg">
-      <h3 className="text-xl font-semibold mb-3">Set Focus Time</h3>
+    <div className="mt-6 p-4 border border-gray-700 rounded-lg">
+      <h3 className="text-xl font-semibold mb-3">Set Break Time</h3>
       <div className="flex flex-col space-y-4">
         <div className="flex items-center">
           <label className="w-24">Minutes:</label>
@@ -62,13 +54,13 @@ const CustomTime = ({ onTimeChange }) => {
         </div>
         <button 
           onClick={handleSave}
-          className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+          className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded transition duration-300"
         >
-          Save Focus Settings
+          Save Break Settings
         </button>
       </div>
     </div>
   );
 };
 
-export default CustomTime;
+export default BreakTimeSettings;

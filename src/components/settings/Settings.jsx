@@ -1,29 +1,26 @@
-import { useState } from "react";
 import ThemeMode from "../hooks/themeMode";
 import CustomTime from "./customTime";
+import BreakTimeSettings from "./BreakTimeSettings";
 
-const Settings = () => {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-  const [customTime, setCustomTime] = useState({
-    minutes: 25,
-    seconds: 0,
-  });
-
-  // Function to handle time update
-  const handleTimeChange = (minutes, seconds) => {
-    setCustomTime({ minutes, seconds });
-  };
-
+const Settings = ({ setTheme, theme }) => {
   return (
-    <div>
-      <div className="settings-container">
-        <h2>Settings</h2>
+    <div className="max-w-lg mx-auto p-6 bg-gray-900 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-center">Settings</h2>
 
-        {/* Theme Mode Component */}
+      {/* Theme Mode Component */}
+      <div className="mb-6">
         <ThemeMode setTheme={setTheme} theme={theme} />
+      </div>
 
-        {/* Custom Time Component */}
-        <CustomTime onTimeChange={handleTimeChange} />
+      {/* Timer Settings Section */}
+      <div className="space-y-6">
+        <h3 className="text-xl font-semibold">Timer Settings</h3>
+        
+        {/* Focus Time Component */}
+        <CustomTime />
+        
+        {/* Break Time Component */}
+        <BreakTimeSettings />
       </div>
     </div>
   );
