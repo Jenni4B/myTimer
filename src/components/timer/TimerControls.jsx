@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Button from "../common/Button";
 import { useAchievements } from "../../context/AchievementsContext";
 import TimerTypeSelector from "./TimerTypeSelector";
@@ -12,29 +12,25 @@ const TimerControls = () => {
   const [sessionStreak, setSessionStreak] = useState(0);
   const { unlockAchievement } = useAchievements();
 
-  // Load settings on component mount
+  // 🔥 Prevent useEffect from running twice in React 18 Strict Mode
+  const didMount = useRef(false);
+
+  // ✅ Load settings on first mount only
   useEffect(() => {
-    const savedSessions = localStorage.getItem("completedSessions");
-    const savedStreak = localStorage.getItem("sessionStreak");
-    
-    if (savedSessions) setCompletedSessions(parseInt(savedSessions, 10));
-    if (savedStreak) setSessionStreak(parseInt(savedStreak, 10));
-    
-    // Load the appropriate timer settings based on type
-    loadTimerSettings(timerType);
+    if (!didMount.current) {
+      didMount.current = true;
+      loadTimerSettings(timerType);
+    }
+  }, []);
+
+  // ✅ Only reset timer when switching timer types (but not while running)
+  useEffect(() => {
+    if (!isRunning) {
+      loadTimerSettings(timerType);
+    }
   }, [timerType]);
 
-  // Load timer settings whenever timer type changes
-  useEffect(() => {
-    loadTimerSettings(timerType);
-    // Reset the timer if it's running
-    if (isRunning) {
-      setIsRunning(false);
-      setIsPaused(false);
-    }
-  }, [isRunning, timerType]);
-
-  // Function to load the appropriate timer settings
+  // ✅ Function to load the appropriate timer settings
   const loadTimerSettings = (type) => {
     if (type === "focus") {
       const savedMinutes = localStorage.getItem("focusMinutes") || localStorage.getItem("customMinutes") || 25;
@@ -47,43 +43,38 @@ const TimerControls = () => {
     }
   };
 
+  // ✅ Handle session completion and automatically switch timers
   const handleSessionComplete = useCallback(() => {
-    // Only increment completed sessions for focus timers
+    setCompletedSessions(prev => {
+      const newSessions = prev + 1;
+      localStorage.setItem("completedSessions", newSessions);
+      return newSessions;
+    });
+
+    setSessionStreak(prev => {
+      const newStreak = prev + 1;
+      localStorage.setItem("sessionStreak", newStreak);
+      return newStreak;
+    });
+
+    // 🔥 Automatically switch to the next timer type
     if (timerType === "focus") {
-      const newCompletedSessions = completedSessions + 1;
-      setCompletedSessions(newCompletedSessions);
-      setSessionStreak(sessionStreak + 1);
-      
-      // Store in localStorage
-      localStorage.setItem("completedSessions", newCompletedSessions);
-      localStorage.setItem("sessionStreak", sessionStreak + 1);
-
-      // Unlock achievements
-      if (newCompletedSessions === 1) unlockAchievement("1");
-      if (sessionStreak + 1 === 3) unlockAchievement("2");
-      if (newCompletedSessions === 10) unlockAchievement("3");
-      if (newCompletedSessions === 25) unlockAchievement("4");
-      if (newCompletedSessions * 25 >= 300) unlockAchievement("5");
+      setTimerType("break");
+      loadTimerSettings("break");
+    } else {
+      setTimerType("focus");
+      loadTimerSettings("focus");
     }
-    
-    // When a timer completes, suggest switching to the other type
-    const nextType = timerType === "focus" ? "break" : "focus";
-    
-    // Show notification
-    if ("Notification" in window && Notification.permission === "granted") {
-      new Notification(`${timerType.charAt(0).toUpperCase() + timerType.slice(1)} timer completed!`, {
-        body: `Time to switch to ${nextType} mode.`
-      });
-    } else if ("Notification" in window && Notification.permission !== "denied") {
-      Notification.requestPermission();
-    }
-    
-  }, [completedSessions, sessionStreak, timerType, unlockAchievement]);
 
+    setIsRunning(false);
+    setIsPaused(false);
+  }, [timerType]);
+
+  // ✅ Timer countdown logic
   useEffect(() => {
     let timer;
     if (isRunning && !isPaused && totalSeconds > 0) {
-      timer = setInterval(() => setTotalSeconds((prev) => prev - 1), 1000);
+      timer = setInterval(() => setTotalSeconds(prev => prev - 1), 1000);
     } else if (totalSeconds === 0 && isRunning) {
       setIsRunning(false);
       setIsPaused(false);
@@ -92,20 +83,26 @@ const TimerControls = () => {
     return () => clearInterval(timer);
   }, [isRunning, isPaused, totalSeconds, handleSessionComplete]);
 
+  // ✅ Start timer
   const onStart = () => {
+    console.log("Before start:", isRunning); // Debugging log
     setIsRunning(true);
     setIsPaused(false);
+    console.log("After start:", isRunning); // Debugging log
   };
 
+  // ✅ Pause and resume functions
   const onPause = () => setIsPaused(true);
   const onResume = () => setIsPaused(false);
-  
+
+  // ✅ Reset the timer to the current timer type's default settings
   const onReset = () => {
     setIsRunning(false);
     setIsPaused(false);
     loadTimerSettings(timerType);
   };
 
+  // ✅ Handle switching between Focus & Break mode
   const handleTypeChange = (newType) => {
     if (isRunning && !isPaused) {
       if (window.confirm(`Are you sure you want to switch to ${newType} timer? Your current timer will be reset.`)) {
@@ -116,7 +113,7 @@ const TimerControls = () => {
     }
   };
 
-  // Get the appropriate timer color based on type
+  // ✅ Determine the text color based on the timer type
   const getTimerColor = () => {
     return timerType === "focus" ? "text-amber-400" : "text-teal-400";
   };
