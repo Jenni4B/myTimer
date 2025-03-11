@@ -3,7 +3,7 @@ const showNotification = (title, message, enabled) => {
     if (enabled && "Notification" in window && Notification.permission === "granted") {
       new Notification(title, { 
         body: message,
-        icon: '/favicon.ico' // Optional: Add your app icon
+        icon: '/panda.png' // Optional: Add your app icon
       });
     }
   };
