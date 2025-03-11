@@ -31,7 +31,7 @@ const Settings = ({ setTheme, theme }) => {
 
       {/* Timer Settings Section */}
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold">Timer Settings</h3>
+        <h2 className="text-xl font-semibold">Timer Settings</h2>
         
         {/* Focus Time Component */}
         <CustomTime />
