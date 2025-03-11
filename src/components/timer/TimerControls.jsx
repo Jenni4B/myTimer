@@ -12,7 +12,7 @@ const TimerControls = () => {
   const [sessionStreak, setSessionStreak] = useState(0);
   const { unlockAchievement } = useAchievements();
 
-  // 🔥 Prevent useEffect from running twice in React 18 Strict Mode
+  // 🔥 Prevent useEffect from running twice
   const didMount = useRef(false);
 
   // ✅ Load settings on first mount only
@@ -28,7 +28,7 @@ const TimerControls = () => {
     if (!isRunning) {
       loadTimerSettings(timerType);
     }
-  }, [timerType]);
+  }, [timerType, isRunning]);
 
   // ✅ Function to load the appropriate timer settings
   const loadTimerSettings = (type) => {
