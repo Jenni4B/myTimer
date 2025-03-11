@@ -21,29 +21,31 @@ const Settings = ({ setTheme, theme }) => {
   }, [notificationsEnabled]);
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-900 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-center">Settings</h2>
+    <div className="max-w-4xl mx-auto p-6 bg-gray-900 rounded-lg shadow-lg">
 
-      {/* Theme Mode Component */}
-      <div className="mb-6">
-        <ThemeMode setTheme={setTheme} theme={theme} />
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Left Column */}
+        <div className="space-y-6">
+          {/* Theme Mode Component */}
+          <div className="p-4 border border-gray-700 rounded-lg">
+            <ThemeMode setTheme={setTheme} theme={theme} />
+          </div>
 
-      {/* Timer Settings Section */}
-      <div className="space-y-6">
-        <h2 className="text-xl font-semibold">Timer Settings</h2>
-        
-        {/* Focus Time Component */}
-        <CustomTime />
-        
-        {/* Break Time Component */}
-        <BreakTimeSettings />
-        
-        {/* Notification Settings Component */}
-        <NotificationSystem 
-          enabled={notificationsEnabled} 
-          setEnabled={setNotificationsEnabled} 
-        />
+          {/* Focus Time Component */}
+          <CustomTime />
+        </div>
+
+        {/* Right Column */}
+        <div className="space-y-6">
+          {/* Break Time Component */}
+          <BreakTimeSettings />
+          
+          {/* Notification Settings Component */}
+          <NotificationSystem 
+            enabled={notificationsEnabled} 
+            setEnabled={setNotificationsEnabled} 
+          />
+        </div>
       </div>
     </div>
   );
