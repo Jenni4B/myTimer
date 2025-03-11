@@ -24,7 +24,7 @@ function App() {
             <Router>
                 <div className={`App ${theme}`}>
                     <nav className="navbar">
-                        <h1 id='headerTimeWise'>Time Wise</h1>
+                        <h2 id='headerTimeWise'>Time Wise</h2>
                         <ul>
                             <li><Link to="/">Timer</Link></li>
                             <li><Link to="/settings">Settings</Link></li>

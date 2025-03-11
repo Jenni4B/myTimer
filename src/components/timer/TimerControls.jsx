@@ -182,13 +182,6 @@ const TimerControls = () => {
           Reset
         </button>
       </div>
-      
-      {/* Session counter */}
-      <div className="mt-4 text-sm text-gray-400">
-        {completedSessions > 0 && (
-          <p>Completed Sessions: {completedSessions} | Current Streak: {sessionStreak}</p>
-        )}
-      </div>
     </div>
   );
 };

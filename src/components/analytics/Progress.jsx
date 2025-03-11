@@ -1,4 +1,5 @@
 import ErrorBoundary from "../common/ErrorBoundary";
+import StreakCounter from "./StreakCounter";
 
 const Progress = () => {
   const sessionsCompleted = 10;
@@ -10,9 +11,7 @@ const Progress = () => {
 
             <div className="progressBox">
             <h2>Progress</h2>
-
-            {/* <p>Sessions completed: {sessionsCompleted}</p>
-            <p>Time spent: 10 hours</p> */}
+            <StreakCounter sessionsCompleted={sessionsCompleted} />
             </div>
 
         </ErrorBoundary>
