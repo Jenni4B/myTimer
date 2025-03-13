@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
-import { useAchievements } from "./AchievementsContext";
+import { useAchievements } from "./achievementsContext"; // Fix case sensitivity
 import showNotification from "../components/feedback/ShowNotification";
 
 const TimerContext = createContext();
@@ -127,5 +127,10 @@ export const TimerProvider = ({ children }) => {
   );
 };
 
-
-export const useTimer = () => useContext(TimerContext);
+export const useTimer = () => {
+  const context = useContext(TimerContext);
+  if (!context) {
+    throw new Error("useTimer must be used within a TimerProvider");
+  }
+  return context;
+};

@@ -1,12 +1,24 @@
 import { useTimer } from "../../context/TimerContext";
 import Button from "../common/Button";
 import TimerTypeSelector from "./TimerTypeSelector";
+import ProgressBar from "./ProgressBar";
+import { useEffect, useRef } from "react";
 
 const TimerControls = () => {
   const { 
     timerType, setTimerType, totalSeconds, isRunning, isPaused, 
     startTimer, pauseTimer, resumeTimer, resetTimer 
   } = useTimer();
+  
+  // Store the initial seconds for the progress bar
+  const initialSeconds = useRef(totalSeconds);
+  
+  // Update initialSeconds when timer type changes or is reset
+  useEffect(() => {
+    if (!isRunning || isPaused) {
+      initialSeconds.current = totalSeconds;
+    }
+  }, [timerType, totalSeconds, isRunning, isPaused]);
 
   const handleTypeChange = (newType) => {
     if (isRunning && !isPaused) {
@@ -27,6 +39,13 @@ const TimerControls = () => {
         {String(totalSeconds % 60).padStart(2, "0")}
       </h2>
 
+      {/* Add Progress Bar */}
+      <ProgressBar 
+        totalSeconds={totalSeconds} 
+        initialSeconds={initialSeconds.current} 
+        timerType={timerType} 
+      />
+
       <div className="flex space-x-4 justify-center mb-4">
         <Button 
           isRunning={isRunning} 
@@ -37,7 +56,9 @@ const TimerControls = () => {
         />
 
         <button 
-          className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-md"
+          className={`px-4 py-2 bg-gray-600 text-white font-semibold rounded-md transition duration-300 ${
+            isRunning && !isPaused ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-500'
+          }`}
           onClick={resetTimer} 
           disabled={isRunning && !isPaused}
         >
