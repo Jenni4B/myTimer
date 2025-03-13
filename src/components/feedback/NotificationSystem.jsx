@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import playSessionCompleteSound from "../hooks/sessionCompleteSound";
 
 const NotificationSystem = ({ enabled, setEnabled }) => {
   const [permission, setPermission] = useState("default");
@@ -10,6 +11,7 @@ const NotificationSystem = ({ enabled, setEnabled }) => {
         body: "Your notifications are working correctly!",
         icon: '/butterCat.png'
       });
+      playSessionCompleteSound(); // Play sound when the session is complete
     } else {
       alert("Notifications are not enabled or permission is not granted.");
     }
