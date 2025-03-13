@@ -1,8 +1,8 @@
 import Button from "../common/Button";
 import TimerTypeSelector from "./TimerTypeSelector";
-import ProgressBar from "./ProgressBar";
 import { useEffect, useRef } from "react";
 import useTimer from "../hooks/useTimer";
+import ProgressBar from "./ProgressBar";
 
 
 const TimerControls = () => {
@@ -34,19 +34,12 @@ const TimerControls = () => {
   return (
     <div className="timer-container">
       <TimerTypeSelector activeType={timerType} onTypeChange={handleTypeChange} />
-
+      
       <h2 className={`text-4xl font-bold mb-4 ${timerType === "focus" ? "text-amber-400" : "text-teal-400"}`}>
         {String(Math.floor(totalSeconds / 60)).padStart(2, "0")}:
         {String(totalSeconds % 60).padStart(2, "0")}
       </h2>
-
-      {/* Add Progress Bar */}
-      <ProgressBar 
-        totalSeconds={totalSeconds} 
-        initialSeconds={initialSeconds.current} 
-        timerType={timerType} 
-      />
-
+      
       <div className="flex space-x-4 justify-center mb-4">
         <Button 
           isRunning={isRunning} 
@@ -65,6 +58,7 @@ const TimerControls = () => {
         >
           Reset
         </button>
+
       </div>
     </div>
   );

@@ -1,26 +1,23 @@
-import React from "react";
-
 const ProgressBar = ({ totalSeconds, initialSeconds, timerType }) => {
-  // Calculate percentage complete
-  const percentComplete = 100 - (totalSeconds / initialSeconds) * 100;
+  // Calculate percentage complete (now filling up instead of decreasing)
+  const percentComplete = ((initialSeconds - totalSeconds) / initialSeconds) * 100;
   
   // Determine color based on timer type
   const getBarColor = () => {
     return timerType === "focus" 
-      ? "bg-amber-500" // Amber for focus sessions
-      : "bg-teal-500"; // Teal for break sessions
+      ? "bg-amber-500" // Solid color for focus sessions
+      : "bg-teal-500";  // Solid color for break sessions
   };
 
   return (
-    <div className="w-full h-3 bg-gray-700 rounded-full my-3 overflow-hidden">
+    <div className="w-full bg-gray-700 h-1 mb-4 relative">
       <div 
-        className={`h-full ${getBarColor()} transition-all duration-1000 ease-linear`}
+        className={`h-full transition-all duration-1000 ease-linear ${getBarColor()}`}
         style={{ width: `${percentComplete}%` }}
-        role="progressbar"
-        aria-valuenow={percentComplete}
-        aria-valuemin="0"
-        aria-valuemax="100"
       />
+      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        <div className="w-3 h-3 bg-white rounded-full shadow-md"></div>
+      </div>
     </div>
   );
 };
