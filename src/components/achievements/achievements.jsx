@@ -1,6 +1,6 @@
 import { useAchievements } from "../../context/achievementsContext";
 const Achievements = () => {
-    const { achievements, resetAchievements } = useAchievements();
+    const { achievements} = useAchievements();
   
     return (
       <div>
@@ -13,7 +13,6 @@ const Achievements = () => {
             </li>
           ))}
         </ul>
-        <button onClick={resetAchievements}>Reset Achievements</button>
       </div>
     );
   };

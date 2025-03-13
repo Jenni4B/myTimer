@@ -86,16 +86,8 @@ export function AchievementsProvider({ children }) {
     });
   };
 
-  // Reset all achievements
-  const resetAchievements = () => {
-    if (window.confirm("Are you sure you want to reset all achievements? This cannot be undone.")) {
-      setAchievements(defaultAchievements);
-      toast.info("All achievements have been reset", { position: "top-center", autoClose: 3000 });
-    }
-  };
-
   return (
-    <AchievementsContext.Provider value={{ achievements, unlockAchievement, resetAchievements }}>
+    <AchievementsContext.Provider value={{ achievements, unlockAchievement}}>
       {children}
     </AchievementsContext.Provider>
   );
