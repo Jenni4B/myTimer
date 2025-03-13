@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useCallback, useRef } from "react";
 import { useAchievements } from "./achievementsContext";
 import showNotification from "../components/feedback/ShowNotification";
+import playSessionCompleteSound from "../components/hooks/sessionCompleteSound";
 
 
 const TimerContext = createContext();
@@ -9,12 +10,16 @@ const TimerProvider = ({ children }) => {
   const [timerType, setTimerType] = useState("focus"); // "focus" or "break"
   const [totalSeconds, setTotalSeconds] = useState(25 * 60);
   const [initialSeconds, setInitialSeconds] = useState(25 * 60); // Added new state
+  
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+
   const [completedSessions, setCompletedSessions] = useState(0);
   const [sessionStreak, setSessionStreak] = useState(0);
+
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const { unlockAchievement } = useAchievements();
+  
   const didMount = useRef(false);
 
   // Load settings on first mount only
@@ -48,6 +53,20 @@ const TimerProvider = ({ children }) => {
       }
     }
   }, [timerType]);
+
+  // watch for local storage changes
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === "notificationsEnabled") {
+        setNotificationsEnabled(e.newValue === "true");
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  })
 
   // Only reset timer when switching timer types (but not while running)
   useEffect(() => {
@@ -97,6 +116,7 @@ const TimerProvider = ({ children }) => {
         const title = timerType === "focus" ? "Focus Session Complete!" : "Break Time Over!";
         const message = timerType === "focus" ? "Time for a break!" : "Ready to focus again?";
         showNotification(title, message, true);
+        playSessionCompleteSound();
     }
 
     setTimerType(timerType === "focus" ? "break" : "focus");
@@ -133,8 +153,11 @@ const TimerProvider = ({ children }) => {
 
   return (
     <TimerContext.Provider value={{ 
-      timerType, setTimerType, totalSeconds, initialSeconds, isRunning, isPaused, startTimer, 
-      pauseTimer, resumeTimer, resetTimer, completedSessions, sessionStreak 
+      timerType, setTimerType, totalSeconds, 
+      initialSeconds, isRunning, isPaused, startTimer, 
+      pauseTimer, resumeTimer, resetTimer, 
+      completedSessions, sessionStreak, notificationsEnabled, 
+      setNotificationsEnabled
     }}>
       {children}
     </TimerContext.Provider>

@@ -4,7 +4,7 @@ const showNotification = (title, message, enabled) => {
     if (enabled && "Notification" in window && Notification.permission === "granted") {
       new Notification(title, { 
         body: message,
-        icon: '/panda.png',
+        icon: '/butterCat.png',
       });
     } else {
       console.log("Notification not sent: permission not granted or notifications disabled");

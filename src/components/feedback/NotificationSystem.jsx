@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import playSessionCompleteSound from "../hooks/sessionCompleteSound";
 
 const NotificationSystem = ({ enabled, setEnabled }) => {
@@ -16,13 +16,6 @@ const NotificationSystem = ({ enabled, setEnabled }) => {
       alert("Notifications are not enabled or permission is not granted.");
     }
   };
-
-  // Check notification permission on mount
-  // useEffect(() => {
-  //   if ("Notification" in window) {
-  //     setPermission(Notification.permission);
-  //   }
-  // }, []);
 
   // Request notification permission
   const requestPermission = async () => {

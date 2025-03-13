@@ -1,30 +1,19 @@
+// src/components/settings/Settings.jsx
 import ThemeMode from "../hooks/themeMode";
 import CustomTime from "./customTime";
 import BreakTimeSettings from "./BreakTimeSettings";
 import NotificationSystem from "../feedback/NotificationSystem";
+import useTimer from "../hooks/useTimer";
 import { useState, useEffect } from "react";
 
 const Settings = ({ setTheme, theme }) => {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const { notificationsEnabled, setNotificationsEnabled } = useTimer();
   
-  // ✅ Load notification settings from localStorage on mount
-  useEffect(() => {
-    const savedSetting = localStorage.getItem("notificationsEnabled");
-    if (savedSetting !== null) {
-      setNotificationsEnabled(savedSetting === "true");
-    }
-  }, []);
-  
-  // ✅ Save notification settings whenever they change
-  useEffect(() => {
-    localStorage.setItem("notificationsEnabled", notificationsEnabled);
-  }, [notificationsEnabled]);
-
-  // ✅ Function to wipe all data
+  // Function to wipe all data
   const wipeAllData = () => {
     if (window.confirm("Are you sure you want to delete ALL data? This cannot be undone.")) {
-      localStorage.clear(); // 🔥 Wipes EVERYTHING in localStorage
-      window.location.reload(); // 🔄 Refresh the page for a clean reset
+      localStorage.clear();
+      window.location.reload();
     }
   };
 
