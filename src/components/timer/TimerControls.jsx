@@ -1,146 +1,13 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useTimer } from "../../context/TimerContext";
 import Button from "../common/Button";
-import { useAchievements } from "../../context/AchievementsContext";
 import TimerTypeSelector from "./TimerTypeSelector";
-import showNotification from "../feedback/ShowNotification";
 
 const TimerControls = () => {
-  const [timerType, setTimerType] = useState("focus"); // "focus" or "break"
-  const [totalSeconds, setTotalSeconds] = useState(25 * 60);
-  const [isRunning, setIsRunning] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [completedSessions, setCompletedSessions] = useState(0);
-  const [sessionStreak, setSessionStreak] = useState(0);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const { unlockAchievement } = useAchievements();
+  const { 
+    timerType, setTimerType, totalSeconds, isRunning, isPaused, 
+    startTimer, pauseTimer, resumeTimer, resetTimer 
+  } = useTimer();
 
-  // 🔥 Prevent useEffect from running twice
-  const didMount = useRef(false);
-
-  // ✅ Load settings on first mount only
-  useEffect(() => {
-    if (!didMount.current) {
-      didMount.current = true;
-      loadTimerSettings(timerType);
-      
-      // Load notification settings
-      const savedNotificationSetting = localStorage.getItem("notificationsEnabled");
-      if (savedNotificationSetting !== null) {
-        setNotificationsEnabled(savedNotificationSetting === "true");
-      }
-      
-      // Load completed sessions from localStorage
-      const savedSessions = localStorage.getItem("completedSessions");
-      if (savedSessions !== null) {
-        setCompletedSessions(parseInt(savedSessions, 10));
-      }
-      
-      // Load streak from localStorage
-      const savedStreak = localStorage.getItem("sessionStreak");
-      if (savedStreak !== null) {
-        setSessionStreak(parseInt(savedStreak, 10));
-      }
-    }
-  }, []);
-
-  // ✅ Only reset timer when switching timer types (but not while running)
-  useEffect(() => {
-    if (!isRunning) {
-      loadTimerSettings(timerType);
-    }
-  }, [timerType, isRunning]);
-
-  // ✅ Function to load the appropriate timer settings
-  const loadTimerSettings = (type) => {
-    if (type === "focus") {
-      const savedMinutes = localStorage.getItem("focusMinutes") || localStorage.getItem("customMinutes") || 25;
-      const savedSeconds = localStorage.getItem("focusSeconds") || localStorage.getItem("customSeconds") || 0;
-      setTotalSeconds(parseInt(savedMinutes, 10) * 60 + parseInt(savedSeconds, 10));
-    } else if (type === "break") {
-      const savedMinutes = localStorage.getItem("breakMinutes") || 5;
-      const savedSeconds = localStorage.getItem("breakSeconds") || 0;
-      setTotalSeconds(parseInt(savedMinutes, 10) * 60 + parseInt(savedSeconds, 10));
-    }
-  };
-
-  // ✅ Handle session completion and automatically switch timers
-  const handleSessionComplete = useCallback(() => {
-    // Update achievements if focus session completed
-    if (timerType === "focus") {
-      // Unlock first pomodoro achievement
-      unlockAchievement("1");
-      
-      setCompletedSessions(prev => {
-        const newSessions = prev + 1;
-        localStorage.setItem("completedSessions", newSessions);
-        
-        // Unlock achievements based on session count
-        if (newSessions >= 10) unlockAchievement("3");
-        if (newSessions >= 25) unlockAchievement("4");
-        
-        return newSessions;
-      });
-
-      setSessionStreak(prev => {
-        const newStreak = prev + 1;
-        localStorage.setItem("sessionStreak", newStreak);
-        
-        // Unlock streak achievement
-        if (newStreak >= 3) unlockAchievement("2");
-        
-        return newStreak;
-      });
-    }
-
-    // Show notification
-    const title = timerType === "focus" ? "Focus Session Complete!" : "Break Time Over!";
-    const message = timerType === "focus" ? "Time for a break!" : "Ready to focus again?";
-    showNotification(title, message, notificationsEnabled);
-
-    // 🔥 Automatically switch to the next timer type
-    if (timerType === "focus") {
-      setTimerType("break");
-      loadTimerSettings("break");
-    } else {
-      setTimerType("focus");
-      loadTimerSettings("focus");
-    }
-
-    setIsRunning(false);
-    setIsPaused(false);
-  }, [timerType, notificationsEnabled, unlockAchievement]);
-
-  // ✅ Timer countdown logic
-  useEffect(() => {
-    let timer;
-    if (isRunning && !isPaused && totalSeconds > 0) {
-      timer = setInterval(() => setTotalSeconds(prev => prev - 1), 1000);
-    } else if (totalSeconds === 0 && isRunning) {
-      setIsRunning(false);
-      setIsPaused(false);
-      handleSessionComplete();
-    }
-    return () => clearInterval(timer);
-  }, [isRunning, isPaused, totalSeconds, handleSessionComplete]);
-
-  // ✅ Start timer
-  const onStart = () => {
-    setIsRunning(true);
-    setIsPaused(false);
-  };
-
-  // ✅ Pause and resume functions
-  const onPause = () => setIsPaused(true);
-  const onResume = () => setIsPaused(false);
-
-  // ✅ Reset the timer to the current timer type's default settings
-  const onReset = () => {
-    setIsRunning(false);
-    setIsPaused(false);
-    loadTimerSettings(timerType);
-  };
-
-  // ✅ Handle switching between Focus & Break mode
   const handleTypeChange = (newType) => {
     if (isRunning && !isPaused) {
       if (window.confirm(`Are you sure you want to switch to ${newType} timer? Your current timer will be reset.`)) {
@@ -151,32 +18,27 @@ const TimerControls = () => {
     }
   };
 
-  // ✅ Determine the text color based on the timer type
-  const getTimerColor = () => {
-    return timerType === "focus" ? "text-amber-400" : "text-teal-400";
-  };
-
   return (
     <div className="timer-container">
       <TimerTypeSelector activeType={timerType} onTypeChange={handleTypeChange} />
-      
-      <h2 className={`text-4xl font-bold mb-4 ${getTimerColor()}`}>
+
+      <h2 className={`text-4xl font-bold mb-4 ${timerType === "focus" ? "text-amber-400" : "text-teal-400"}`}>
         {String(Math.floor(totalSeconds / 60)).padStart(2, "0")}:
         {String(totalSeconds % 60).padStart(2, "0")}
       </h2>
-      
+
       <div className="flex space-x-4 justify-center mb-4">
         <Button 
           isRunning={isRunning} 
           isPaused={isPaused} 
-          onStart={onStart} 
-          onPause={onPause} 
-          onResume={onResume} 
+          onStart={startTimer} 
+          onPause={pauseTimer} 
+          onResume={resumeTimer} 
         />
 
         <button 
-          className={`px-4 py-2 rounded-md text-white font-semibold bg-gray-600 hover:bg-gray-500 transition duration-300 ${isRunning && !isPaused ? 'opacity-50 cursor-not-allowed' : ''}`}
-          onClick={onReset} 
+          className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-md"
+          onClick={resetTimer} 
           disabled={isRunning && !isPaused}
         >
           Reset
