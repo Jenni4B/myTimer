@@ -3,15 +3,15 @@
 A customizable timer interface to help users maintain concentration during work sessions.
 ## Features
 
-   ✔ Customizable time settings (adjust both minutes & seconds).
+✔ Customizable timer – Adjust both minutes and seconds.
 
-   ✔ Start, Pause, Resume, and Reset buttons for full control.
+✔ Full control – Start, Pause, Resume, and Reset at any time.
 
-   ✔ Browser notification when the timer reaches 00:00.
+✔ Browser notifications – Alerts when the timer hits 00:00.
 
-   ✔ Light & Dark Mode toggle in settings (saves your preference in local storage).
+✔ Light & Dark Mode – Choose between a sunrise-themed light mode or a midnight purple dark mode (because grey is boring).
 
-   ✔ Error handling for invalid inputs (e.g., prevents setting 00:00).
+✔ Error handling – Prevents invalid inputs like setting the timer to 00:00.
 
 ## Installation
 
@@ -42,9 +42,13 @@ A customizable timer interface to help users maintain concentration during work 
 5. The Reset button is disabled while the timer is running. 
    If the timer is paused, the Reset button becomes available. The timer resets to the default value or the custom value
 
-## Upcoming Features
-1. Sound notifications when the timer reaches 00:00.
-2. Session tracking (count how many focus sessions are completed).
+## Future Features
+1. More themes? 👀
+2. Charts for data
+   2.1 Daily streaks
+   2.2 Hours Spent
+   2.3 Download data
+
 
 ## Updates
 
@@ -52,3 +56,11 @@ A customizable timer interface to help users maintain concentration during work 
 1. The Start Button becomes a resume and pause button depending on the state of the timer.
 2. The reset button is unavailable when the timer is counting down but can be pressed when the timer is paused.
 3. Light and Dark mode! Light mode is a sunrise theme while night mode is an evening/midnight purple vibe. Because grey is boring
+
+
+### Update 3/13/2025
+1. Achievements page 🏆
+2. Session tracking, tracks how many sessions the user did on the account
+3. Reset all data
+   3.1 Wipe Data button is in the Danger Zone at the bottom of the settings page
+   3.2 Wipes achievement page, session counter, theme settings, and custom timer settings
