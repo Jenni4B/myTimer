@@ -8,6 +8,7 @@ const TimerContext = createContext();
 const TimerProvider = ({ children }) => {
   const [timerType, setTimerType] = useState("focus"); // "focus" or "break"
   const [totalSeconds, setTotalSeconds] = useState(25 * 60);
+  const [initialSeconds, setInitialSeconds] = useState(25 * 60); // Added new state
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [completedSessions, setCompletedSessions] = useState(0);
@@ -60,11 +61,15 @@ const TimerProvider = ({ children }) => {
     if (type === "focus") {
       const savedMinutes = localStorage.getItem("focusMinutes") || localStorage.getItem("customMinutes") || 25;
       const savedSeconds = localStorage.getItem("focusSeconds") || localStorage.getItem("customSeconds") || 0;
-      setTotalSeconds(parseInt(savedMinutes, 10) * 60 + parseInt(savedSeconds, 10));
+      const calculatedSeconds = parseInt(savedMinutes, 10) * 60 + parseInt(savedSeconds, 10);
+      setTotalSeconds(calculatedSeconds);
+      setInitialSeconds(calculatedSeconds); // Store the initial value
     } else if (type === "break") {
       const savedMinutes = localStorage.getItem("breakMinutes") || 5;
       const savedSeconds = localStorage.getItem("breakSeconds") || 0;
-      setTotalSeconds(parseInt(savedMinutes, 10) * 60 + parseInt(savedSeconds, 10));
+      const calculatedSeconds = parseInt(savedMinutes, 10) * 60 + parseInt(savedSeconds, 10);
+      setTotalSeconds(calculatedSeconds);
+      setInitialSeconds(calculatedSeconds); // Store the initial value
     }
   };
 

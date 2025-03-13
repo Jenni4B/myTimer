@@ -2,8 +2,6 @@ import Button from "../common/Button";
 import TimerTypeSelector from "./TimerTypeSelector";
 import { useEffect, useRef } from "react";
 import useTimer from "../hooks/useTimer";
-import ProgressBar from "./ProgressBar";
-
 
 const TimerControls = () => {
   const { 
