@@ -133,7 +133,7 @@ const TimerProvider = ({ children }) => {
 
   return (
     <TimerContext.Provider value={{ 
-      timerType, setTimerType, totalSeconds, isRunning, isPaused, startTimer, 
+      timerType, setTimerType, totalSeconds, initialSeconds, isRunning, isPaused, startTimer, 
       pauseTimer, resumeTimer, resetTimer, completedSessions, sessionStreak 
     }}>
       {children}
