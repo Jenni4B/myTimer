@@ -3,6 +3,18 @@ import { useState, useEffect } from "react";
 const NotificationSystem = ({ enabled, setEnabled }) => {
   const [permission, setPermission] = useState("default");
 
+  // Check if notifications are enabled in local storage
+  const testNotification = () => {
+    if ("Notification" in window && Notification.permission === "granted" && enabled) {
+      new Notification("Test Notification", {
+        body: "Your notifications are working correctly!",
+        icon: '/butterCat.png'
+      });
+    } else {
+      alert("Notifications are not enabled or permission is not granted.");
+    }
+  };
+
   // Check notification permission on mount
   useEffect(() => {
     if ("Notification" in window) {
@@ -19,12 +31,27 @@ const NotificationSystem = ({ enabled, setEnabled }) => {
         
         if (result === "granted") {
           setEnabled(true);
+          localStorage.setItem("notificationsEnabled", "true");
+          // Show a test notification to confirm it's working
+          new Notification("Notifications Enabled", { 
+            body: "You'll be notified when your timer completes."
+          });
         } else {
           setEnabled(false);
+          localStorage.setItem("notificationsEnabled", "false");
         }
       } catch (error) {
         console.error("Error requesting notification permission:", error);
       }
+    }
+  };
+
+  // 3/12/2025: Moved the if statement to it's own const declaration
+  const permissionGranted = async () => {
+    if (permission !== "granted") {
+      requestPermission();
+    } else {
+      setEnabled(!enabled);
     }
   };
 
@@ -37,32 +64,35 @@ const NotificationSystem = ({ enabled, setEnabled }) => {
       ) : (
         <div className="space-y-3">
           <div className="flex items-center space-x-2">
+            
             <input
               type="checkbox"
-              id="notificationToggle"
+              onChange={permissionGranted}
               checked={enabled && permission === "granted"}
-              onChange={() => {
-                if (permission !== "granted") {
-                  requestPermission();
-                } else {
-                  setEnabled(!enabled);
-                }
-              }}
               className="h-4 w-4"
             />
             <label htmlFor="notificationToggle">Enable notifications when timer ends</label>
           </div>
           
+          {/* if the user has denied permission, they should see a message alerting them*/}
           {permission === "denied" && (
             <p className="text-red-500 text-sm">
               Notification permission denied. Please enable notifications in your browser settings.
             </p>
           )}
           
+          {/* if the user hasn't granted permission yet, they should see a check to do so */}
           {permission === "default" && (
             <p className="text-yellow-500 text-sm">
               You'll need to allow notifications for this feature to work.
             </p>
+          )}
+
+          {/* if notifications are enabled, the test should work for the user */}
+          {permission === "granted" && (
+            <button onClick={testNotification} className="btn btn-primary">
+              Test notification
+            </button>
           )}
         </div>
       )}

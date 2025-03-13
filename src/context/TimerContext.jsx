@@ -23,10 +23,14 @@ export const TimerProvider = ({ children }) => {
       
       // Load notification settings
       const savedNotificationSetting = localStorage.getItem("notificationsEnabled");
-      if (savedNotificationSetting !== null) {
-        setNotificationsEnabled(savedNotificationSetting === "true");
+      if (savedNotificationSetting === "true" && 
+          "Notification" in window && 
+          Notification.permission === "granted") {
+        setNotificationsEnabled(true);
+      } else {
+        setNotificationsEnabled(false);
       }
-      
+
       // Load completed sessions from localStorage
       const savedSessions = localStorage.getItem("completedSessions");
       if (savedSessions !== null) {
@@ -81,9 +85,11 @@ export const TimerProvider = ({ children }) => {
       });
     }
 
-    const title = timerType === "focus" ? "Focus Session Complete!" : "Break Time Over!";
-    const message = timerType === "focus" ? "Time for a break!" : "Ready to focus again?";
-    showNotification(title, message, notificationsEnabled);
+    if (notificationsEnabled && "Notification" in window && Notification.permission === "granted") {
+        const title = timerType === "focus" ? "Focus Session Complete!" : "Break Time Over!";
+        const message = timerType === "focus" ? "Time for a break!" : "Ready to focus again?";
+        showNotification(title, message, true);
+    }
 
     setTimerType(timerType === "focus" ? "break" : "focus");
     loadTimerSettings(timerType === "focus" ? "break" : "focus");

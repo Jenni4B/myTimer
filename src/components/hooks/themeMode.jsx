@@ -14,7 +14,7 @@ const ThemeMode = ({ setTheme, theme }) => {
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) setTheme(savedTheme);
-  }, [setTheme]); // ✅ Runs when `setTheme` changes
+  }, [setTheme]); // Runs when `setTheme` changes
 
   return (
     <div className="themeMode-container">
