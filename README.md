@@ -44,10 +44,15 @@ A customizable timer interface to help users maintain concentration during work 
 
 ## Future Features
 1. More themes? 👀
+
 2. Charts for data
    2.1 Daily streaks
    2.2 Hours Spent
    2.3 Download data
+
+3. Plans to fix the progression bar on the timer card, visible but not moving
+   3.1 I want it to be a rainbow as it progresses
+   3.2 It's not in the spot that I want it to be
 
 
 ## Updates
