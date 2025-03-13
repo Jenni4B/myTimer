@@ -18,11 +18,11 @@ const NotificationSystem = ({ enabled, setEnabled }) => {
   };
 
   // Check notification permission on mount
-  useEffect(() => {
-    if ("Notification" in window) {
-      setPermission(Notification.permission);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if ("Notification" in window) {
+  //     setPermission(Notification.permission);
+  //   }
+  // }, []);
 
   // Request notification permission
   const requestPermission = async () => {

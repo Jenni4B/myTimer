@@ -1,8 +1,9 @@
-import { useTimer } from "../../context/TimerContext";
 import Button from "../common/Button";
 import TimerTypeSelector from "./TimerTypeSelector";
 import ProgressBar from "./ProgressBar";
 import { useEffect, useRef } from "react";
+import useTimer from "../hooks/useTimer";
+
 
 const TimerControls = () => {
   const { 

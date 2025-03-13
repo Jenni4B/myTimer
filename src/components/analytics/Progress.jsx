@@ -1,6 +1,6 @@
 import ErrorBoundary from "../common/ErrorBoundary";
 import StreakCounter from "./StreakCounter";
-import { useTimer } from "../../context/TimerContext";
+import useTimer from "../hooks/useTimer";
 
 const Progress = () => {
   const { completedSessions, sessionStreak } = useTimer();

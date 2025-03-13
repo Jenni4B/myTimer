@@ -1,10 +1,11 @@
-import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
-import { useAchievements } from "./achievementsContext"; // Fix case sensitivity
+import { createContext, useState, useEffect, useCallback, useRef } from "react";
+import { useAchievements } from "./achievementsContext";
 import showNotification from "../components/feedback/ShowNotification";
+
 
 const TimerContext = createContext();
 
-export const TimerProvider = ({ children }) => {
+const TimerProvider = ({ children }) => {
   const [timerType, setTimerType] = useState("focus"); // "focus" or "break"
   const [totalSeconds, setTotalSeconds] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
@@ -15,7 +16,7 @@ export const TimerProvider = ({ children }) => {
   const { unlockAchievement } = useAchievements();
   const didMount = useRef(false);
 
-  // ✅ Load settings on first mount only
+  // Load settings on first mount only
   useEffect(() => {
     if (!didMount.current) {
       didMount.current = true;
@@ -23,9 +24,11 @@ export const TimerProvider = ({ children }) => {
       
       // Load notification settings
       const savedNotificationSetting = localStorage.getItem("notificationsEnabled");
-      if (savedNotificationSetting === "true" && 
-          "Notification" in window && 
-          Notification.permission === "granted") {
+      if (savedNotificationSetting === "true")
+        //  && 
+        //   "Notification" in window && 
+        //   Notification.permission === "granted") 
+          {
         setNotificationsEnabled(true);
       } else {
         setNotificationsEnabled(false);
@@ -45,14 +48,14 @@ export const TimerProvider = ({ children }) => {
     }
   }, [timerType]);
 
-  // ✅ Only reset timer when switching timer types (but not while running)
+  // Only reset timer when switching timer types (but not while running)
   useEffect(() => {
     if (!isRunning) {
       loadTimerSettings(timerType);
     }
   }, [timerType, isRunning]);
 
-  // ✅ Function to load the appropriate timer settings
+  // Function to load the appropriate timer settings
   const loadTimerSettings = (type) => {
     if (type === "focus") {
       const savedMinutes = localStorage.getItem("focusMinutes") || localStorage.getItem("customMinutes") || 25;
@@ -65,7 +68,7 @@ export const TimerProvider = ({ children }) => {
     }
   };
 
-  // ✅ Handle session completion and automatically switch timers
+  // Handle session completion and automatically switch timers
   const handleSessionComplete = useCallback(() => {
     if (timerType === "focus") {
       unlockAchievement("1");
@@ -97,7 +100,7 @@ export const TimerProvider = ({ children }) => {
     setIsPaused(false);
   }, [timerType, notificationsEnabled, unlockAchievement]);
 
-  // ✅ Timer countdown logic
+  // Timer countdown logic
   useEffect(() => {
     let timer;
     if (isRunning && !isPaused && totalSeconds > 0) {
@@ -133,10 +136,4 @@ export const TimerProvider = ({ children }) => {
   );
 };
 
-export const useTimer = () => {
-  const context = useContext(TimerContext);
-  if (!context) {
-    throw new Error("useTimer must be used within a TimerProvider");
-  }
-  return context;
-};
+export {TimerContext, TimerProvider};
