@@ -54,6 +54,8 @@ A customizable timer interface to help users maintain concentration during work 
    3.1 I want it to be a rainbow as it progresses
    3.2 It's not in the spot that I want it to be
 
+4. Self care tasks
+
 
 ## Updates
 
