@@ -1,5 +1,3 @@
-import React from "react";
-
 const Button = ({ isRunning, isPaused, onStart, onPause, onResume }) => {
   const getButtonClasses = () => {
     if (!isRunning) return "bg-green-500 hover:bg-green-600"; // Start
