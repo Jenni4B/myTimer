@@ -1,6 +1,8 @@
 import ErrorBoundary from "../common/ErrorBoundary";
 import StreakCounter from "./StreakCounter";
 import useTimer from "../hooks/useTimer";
+import FocusTimeChart from "./TimeChart";
+import { useEffect, useState} from "react";
 
 const Progress = () => {
   const { completedSessions, sessionStreak } = useTimer();
@@ -14,6 +16,9 @@ const Progress = () => {
             completedSessions={completedSessions} 
             sessionStreak={sessionStreak} 
           />
+        </div>
+        <div>
+          <FocusTimeChart />
         </div>
       </ErrorBoundary>
     </div>
