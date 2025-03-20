@@ -4,7 +4,7 @@ const TimeCollectContext = createContext();
 
 export const TimeCollectProvider = ({ children }) => {
     const [sessionData, setSessionData] = useState([]); // Stores all sessions
-    const [dailyFocusTime, setDailyFocusTime] = useState([]); // Stores total focus time
+    const [dailyFocusTime, setDailyFocusTime] = useState({}); // An object that stores total focus time
 
 
     // Load data from local storage
@@ -31,23 +31,26 @@ export const TimeCollectProvider = ({ children }) => {
             // Minutes completed, uses the floor operation because decimals are tedious
             duration: Math.floor(duration/60000), // Convert ms to mins
         };
-        const updatedSessions = [...sessionData, session];
+
+        const existingSessions = JSON.parse(localStorage.getItem('sessions')) || [];
+        const updatedSessions = [...existingSessions, session];
+
         setSessionData(updatedSessions);
         localStorage.setItem('sessions', JSON.stringify(updatedSessions));
-        updateDailyFocus(updatedSessions);
     };
 
 
     // Calculate total focus time per day
     const updateDailyFocus = (sessions) => {
         const dailyStats = sessions.reduce((acc, session) => {
-            const sessionDate = new Date(session.timestamp).toLocaleDateString(); 
-            acc[sessionDate] = (acc[sessionDate] || 0) + session.duration; 
+            if (!session.timestamp || !session.duration) return acc; // Skip invalid data
+            const sessionDate = new Date(session.timestamp).toLocaleDateString();
+            acc[sessionDate] = (acc[sessionDate] || 0) + session.duration;
             return acc;
-        }, {}); // Ensure accumulator starts as an object
-
+        }, {});
         setDailyFocusTime(dailyStats);
     };
+    
 
     // Run daily focus update when sessionData changes
     useEffect(() => {
