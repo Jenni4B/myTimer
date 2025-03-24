@@ -1,0 +1,12 @@
+.focus-help-container {
+    display: flex;         /* Enables flexbox */
+    justify-content: space-between; /* Adds space between columns */
+    gap: 20px;             /* Adds spacing between the two sections */
+  }
+  
+  .focus-videos-container,
+  .self-care-container {
+    flex: 1;               /* Makes both sections take equal width */
+    min-width: 45%;        /* Ensures they don’t get too narrow */
+  }
+  

@@ -1,4 +1,11 @@
-import './App.css';
+// STYYYYLES 💅🏼
+// made these for easier access so I don't have to scroll through App.css like crazy
+import './styles/app.css';
+import './styles/theme.css';
+import './styles/navbar.css';
+import './styles/buttons.css';
+import './styles/focusHelp.css';
+
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';

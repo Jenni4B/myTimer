@@ -1,0 +1,25 @@
+
+/* DARK MODE THEME */
+body.dark .App {
+    background: linear-gradient(45deg, #392461 30%, #7630c5 90%);
+    color: #e0e0e0;
+  }
+  
+  body.dark .controlButton {
+    background-color: #444;
+    color: white;
+  }
+  
+  body.dark .navbar {
+    background-color: #392461; /* Added dark mode background for navbar */
+  }
+  
+  
+  /* DARK MODE NAVBAR */
+  body.dark .navbar ul li a {
+    color: #bb86fc;
+  }
+  
+  body.dark .navbar ul li a:hover {
+    color: #9a6de9;
+  }

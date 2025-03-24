@@ -1,0 +1,12 @@
+/* CONTROL BUTTONS */
+.controlButton {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    background-color: #929010;
+    color: black;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
