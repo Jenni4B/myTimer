@@ -1,10 +1,11 @@
-// src/components/settings/Settings.jsx
+
 import ThemeMode from "../hooks/themeMode";
 import CustomTime from "./customTime";
 import BreakTimeSettings from "./BreakTimeSettings";
 import NotificationSystem from "../feedback/NotificationSystem";
+
+// Importing necessary hooks
 import useTimer from "../hooks/useTimer";
-import { useState, useEffect } from "react";
 
 const Settings = ({ setTheme, theme }) => {
   const { notificationsEnabled, setNotificationsEnabled } = useTimer();

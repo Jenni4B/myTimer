@@ -5,6 +5,7 @@ import './styles/theme.css';
 import './styles/navbar.css';
 import './styles/buttons.css';
 import './styles/focusHelp.css';
+import './styles/settings.css';
 
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';

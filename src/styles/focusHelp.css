@@ -4,8 +4,7 @@
     gap: 20px;             /* Adds spacing between the two sections */
   }
   
-  .focus-videos-container,
-  .self-care-container {
+.focus-videos-container, .self-care-container {
     flex: 1;               /* Makes both sections take equal width */
     min-width: 45%;        /* Ensures they don’t get too narrow */
   }
