@@ -1,21 +1,21 @@
 // STYYYYLES 💅🏼
 // made these for easier access so I don't have to scroll through App.css like crazy
 import './styles/app.css';
-import './styles/theme.css';
-import './styles/navbar.css';
 import './styles/buttons.css';
 import './styles/focusHelp.css';
+import './styles/navbar.css';
 import './styles/settings.css';
+import './styles/theme.css';
 
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Card from "./components/common/Card";
-import Settings from './components/settings/Settings';
-import Progress from "./components/analytics/Progress";
 import FocusHelpPage from './components/selfCare/focusHelp';
+import Progress from "./components/analytics/Progress";
+import Settings from './components/settings/Settings';
 
 import Achievements from "./components/achievements/achievements";
 import { AchievementsProvider } from "./context/achievementsContext";

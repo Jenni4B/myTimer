@@ -23,18 +23,6 @@
   margin-right: 10px;
 }
 
-.video-input button {
-  padding: 8px 12px;
-  background: #dfdb14;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.video-input button:hover {
-  background: #aaa825;
-}
-
 /* Video Grid Layout */
 .video-grid {
   display: grid;
