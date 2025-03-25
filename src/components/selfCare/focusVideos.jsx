@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react";
 
 const FocusVideos = () => {
+  // State for storing video links
   const [videoLinks, setVideoLinks] = useState([]);
+  
+  // State for handling input from the user
   const [newVideo, setNewVideo] = useState("");
 
-  // Load saved videos from local storage on mount
+  /* ----------------- Load & Save Videos to Local Storage ----------------- */
+
+  // Load saved videos from local storage when the component mounts
   useEffect(() => {
     const savedVideos = JSON.parse(localStorage.getItem("videoLinks")) || [];
     setVideoLinks(savedVideos);
   }, []);
 
-  // Save videos to local storage when the list updates
+  // Save updated video list to local storage whenever videoLinks change
   useEffect(() => {
     localStorage.setItem("videoLinks", JSON.stringify(videoLinks));
   }, [videoLinks]);
 
-  // Extract YouTube Video ID and convert it into an embeddable URL
+  /* ----------------- Helper Functions ----------------- */
+
+  // Extracts YouTube Video ID and creates an embeddable URL
   const getEmbedUrl = (url) => {
     const match = url.match(
       /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
@@ -23,18 +30,37 @@ const FocusVideos = () => {
     return match ? `https://www.youtube.com/embed/${match[1]}` : null;
   };
 
+  /* ----------------- Event Handlers ----------------- */
+
+  // Handles adding a new video to the list
   const handleAddVideo = () => {
     const embedUrl = getEmbedUrl(newVideo);
+    
     if (embedUrl) {
-      setVideoLinks([...videoLinks, embedUrl]);
+      const updatedVideos = [...videoLinks, embedUrl];
+      setVideoLinks(updatedVideos);
       setNewVideo("");
+
+      // Save updated list to local storage
+      localStorage.setItem("videoLinks", JSON.stringify(updatedVideos));
     } else {
       alert("Invalid YouTube link. Please use a valid YouTube video URL.");
     }
   };
 
+  // Handles deleting a video from the list
+  const handleDeleteVideo = (videoUrl) => {
+    const updatedVideos = videoLinks.filter((video) => video !== videoUrl);
+    setVideoLinks(updatedVideos);
+
+    // Update local storage
+    localStorage.setItem("videoLinks", JSON.stringify(updatedVideos));
+  };
+
+  /* ----------------- Render UI ----------------- */
   return (
     <div className="focus-videos-container">
+      
       {/* Video Input Section */}
       <div className="video-input">
         <input
@@ -46,15 +72,27 @@ const FocusVideos = () => {
         <button onClick={handleAddVideo}>Submit</button>
       </div>
 
-      {/* Video Grid */}
+      {/* Video Display Section */}
       <div className="video-grid">
-        {videoLinks.map((link, index) => (
-          <iframe
-            key={index}
-            src={link}
-            title={`Focus Video ${index + 1}`}
-            allowFullScreen
-          />
+        {videoLinks.map((videoUrl, index) => (
+          <div key={index} className="video-item">
+            
+            {/* Embedded YouTube Video */}
+            <iframe 
+              src={videoUrl} 
+              title={`Focus Video ${index + 1}`} 
+              allowFullScreen 
+            />
+            
+            {/* Delete Button */}
+            <button 
+              className="delete-button" 
+              onClick={() => handleDeleteVideo(videoUrl)}
+            >
+              ❌
+            </button>
+            
+          </div>
         ))}
       </div>
     </div>
