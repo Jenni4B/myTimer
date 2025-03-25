@@ -5,7 +5,9 @@ import NotificationSystem from "../feedback/NotificationSystem";
 import useTimer from "../hooks/useTimer";
 
 
-const Settings = ({ setTheme, theme }) => {
+const Settings = () => {
+  
+  const [theme, setTheme] = ThemeMode();
   const { notificationsEnabled, setNotificationsEnabled } = useTimer();
 
   const wipeAllData = () => {
@@ -17,6 +19,7 @@ const Settings = ({ setTheme, theme }) => {
 
   return (
     <div className="settings-container">
+      <h2>Settings</h2>
       <div className="settings-grid">
         {/* Left Column */}
         <div className="settings-column">
