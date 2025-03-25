@@ -36,3 +36,50 @@
   border-radius: 8px;
   border: none;
 }
+
+.self-care-container {
+  background-color: #2a4b75; /* Blue container */
+  padding: 15px;
+  border-radius: 8px;
+  color: white;
+}
+
+.task-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.task-input input {
+  flex: 1;
+  padding: 8px;
+}
+
+.suggested-tasks button {
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #ff8e53;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.task-list {
+  margin-top: 10px;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e3a5f;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+}
+
+.no-tasks {
+  font-style: italic;
+  color: #ccc;
+}
