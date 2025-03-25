@@ -5,9 +5,8 @@ import NotificationSystem from "../feedback/NotificationSystem";
 import useTimer from "../hooks/useTimer";
 
 
-const Settings = () => {
+const Settings = ({ setTheme, theme }) => {
   
-  const [theme, setTheme] = ThemeMode();
   const { notificationsEnabled, setNotificationsEnabled } = useTimer();
 
   const wipeAllData = () => {
