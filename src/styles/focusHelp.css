@@ -9,3 +9,42 @@
     min-width: 45%;        /* Ensures they don’t get too narrow */
   }
   
+.video-input {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.video-input input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  margin-right: 10px;
+}
+
+.video-input button {
+  padding: 8px 12px;
+  background: #dfdb14;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.video-input button:hover {
+  background: #aaa825;
+}
+
+/* Video Grid Layout */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 10px;
+}
+
+.video-grid iframe {
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+  border: none;
+}

@@ -6,7 +6,20 @@
     text-align: center;
     display: inline-block;
     font-size: 16px;
-    background-color: #929010;
     color: black;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+
+.wipe-button {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #dd1b1b; /* bg-red-600 */
+    color: white;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+  
+.wipe-button:hover {
+    background-color: #680e0e; /* hover:bg-red-500 */
+}

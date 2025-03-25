@@ -79,7 +79,7 @@ const NotificationSystem = ({ enabled, setEnabled }) => {
           {/* if the user hasn't granted permission yet, they should see a check to do so */}
           {permission === "default" && (
             <p className="text-yellow-500 text-sm">
-              You'll need to allow notifications for this feature to work.
+              You&apos;ll need to allow notifications for this feature to work.
             </p>
           )}
 
