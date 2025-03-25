@@ -28,3 +28,9 @@ body.dark button {
   background-color: #1b0c52;
   color: white;
 }
+
+/* Focus help card */
+
+body.dark .self-care-container{
+  background-color: #392461;
+}

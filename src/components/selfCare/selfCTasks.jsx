@@ -49,7 +49,7 @@ const SelfCare = () => {
   /* ----------------- Render UI ----------------- */
   return (
     <div className="self-care-container">
-      <h3>Self Care (?)</h3>
+      <h3>Self Care</h3>
 
       {/* Input Section */}
       <div className="task-input">
@@ -59,7 +59,7 @@ const SelfCare = () => {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
         />
-        <button onClick={handleAddTask}>➕ Add</button>
+        <button onClick={handleAddTask}>➕ </button>
       </div>
 
       {/* Suggested Tasks */}
