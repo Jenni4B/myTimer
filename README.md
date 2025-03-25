@@ -54,7 +54,9 @@ A customizable timer interface to help users maintain concentration during work 
    3.1 I want it to be a rainbow as it progresses
    3.2 It's not in the spot that I want it to be
 
-4. Self care tasks
+4. Focus Page
+   Add self care tasks the user can complete (think, a simple ver. of the Finch App)
+
 
 
 ## Updates
@@ -71,3 +73,8 @@ A customizable timer interface to help users maintain concentration during work 
 3. Reset all data
    3.1 Wipe Data button is in the Danger Zone at the bottom of the settings page
    3.2 Wipes achievement page, session counter, theme settings, and custom timer settings
+
+### Update 3/25/2025
+1. Focus Help Page 
+   Some people like to have white or brown noise in the back while focusing, this should help people find their stuff faster instead of getting distracted by other things on youtube (like I tend to do sometimes)
+2. The buttons turn dark purple in dark mode now too. Changed the dark mode name to Midnight Mode

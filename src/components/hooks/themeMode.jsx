@@ -21,7 +21,7 @@ const ThemeMode = ({ setTheme, theme }) => {
       <h3>Theme Mode</h3>
       <label>
         <input type="checkbox" onChange={toggleTheme} checked={theme === "dark"} />
-        Dark Mode
+        Midnight Mode
       </label>
     </div>
   );
