@@ -5,11 +5,8 @@ const SelfCareTasks = () => {
   const suggestedTasks = [
     "Drink water",
     "Tidy Space",
-    "Go for a walk",
-    "Stretch for 5 mins",
     "Deep breathing exercise",
     "Write in a journal",
-    "Listen to calming music",
     "Read a book for 10 mins",
   ];
 
@@ -85,7 +82,7 @@ const SelfCareTasks = () => {
   /* ----------------- Render UI ----------------- */
   return (
     <div className="self-care-container">
-      <h3>Self Care (?)</h3>
+      <h3>Personal Tasks</h3>
 
       {/* Task Input */}
       <div className="task-input">
