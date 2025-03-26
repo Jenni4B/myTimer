@@ -17,13 +17,13 @@ const SelfCare = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
 
-  // Load tasks from local storage on mount
+  // Load tasks from localStorage when the component mounts
   useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("selfCareTasks")) || [];
     setTasks(savedTasks);
   }, []);
 
-  // Save tasks to local storage when they change
+  // Save tasks to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("selfCareTasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -38,6 +38,11 @@ const SelfCare = () => {
     }
   };
 
+  const handleDeleteTask = (taskId) => {
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    setTasks(updatedTasks);
+  };
+
   // Add a suggested task
   const handleAddSuggestedTask = (task) => {
     if (!tasks.some((t) => t.text === task)) {
@@ -49,12 +54,6 @@ const SelfCare = () => {
   const handleToggleComplete = (index) => {
     const updatedTasks = [...tasks];
     updatedTasks[index].completed = !updatedTasks[index].completed;
-    setTasks(updatedTasks);
-  };
-
-  // Delete a task
-  const handleDeleteTask = (index) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
   };
 

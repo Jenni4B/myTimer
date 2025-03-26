@@ -37,8 +37,9 @@
   border: none;
 }
 
+/* self care styles */
 .self-care-container {
-  background-color: #582d37; 
+  background-color: #582d37; /* Blue container */
   padding: 15px;
   border-radius: 8px;
   color: white;
@@ -65,18 +66,27 @@
   border-radius: 4px;
 }
 
+.suggested-tasks button:hover {
+  background-color: #e67640;
+}
+
 .task-list {
   margin-top: 10px;
 }
 
 .task-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #1e3a5f;
+  justify-content: space-between;
+  background-color: #9d5543;
   padding: 8px;
   margin-top: 5px;
   border-radius: 4px;
+}
+
+.task-item.completed {
+  text-decoration: line-through;
+  color: #63e675;
 }
 
 .no-tasks {
