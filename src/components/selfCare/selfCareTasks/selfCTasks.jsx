@@ -1,57 +1,69 @@
 import { useState, useEffect } from "react";
 
 const SelfCare = () => {
-  // Suggested tasks users can add
-  const suggestedTasks = ["Drink water", "Tidy Space", "Go for a walk"];
+  // Suggested self-care tasks
+  const suggestedTasks = [
+    "Drink water",
+    "Tidy Space",
+    "Go for a walk",
+    "Stretch for 5 mins",
+    "Deep breathing exercise",
+    "Write in a journal",
+    "Listen to calming music",
+    "Read a book for 10 mins"
+  ];
 
-  // State for storing tasks
+  // State for user-added tasks
   const [tasks, setTasks] = useState([]);
-  
-  // State for handling input from the user
   const [newTask, setNewTask] = useState("");
 
-  /* ----------------- Load & Save Tasks to Local Storage ----------------- */
-
-  // Load tasks from local storage when component mounts
+  // Load tasks from local storage on mount
   useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("selfCareTasks")) || [];
     setTasks(savedTasks);
   }, []);
 
-  // Save tasks to local storage whenever they change
+  // Save tasks to local storage when they change
   useEffect(() => {
     localStorage.setItem("selfCareTasks", JSON.stringify(tasks));
   }, [tasks]);
 
   /* ----------------- Event Handlers ----------------- */
 
-  // Add a custom task entered by the user
+  // Add a new custom task
   const handleAddTask = () => {
     if (newTask.trim()) {
-      setTasks([...tasks, newTask]);
+      setTasks([...tasks, { text: newTask, completed: false }]);
       setNewTask("");
     }
   };
 
   // Add a suggested task
   const handleAddSuggestedTask = (task) => {
-    if (!tasks.includes(task)) {
-      setTasks([...tasks, task]);
+    if (!tasks.some((t) => t.text === task)) {
+      setTasks([...tasks, { text: task, completed: false }]);
     }
   };
 
-  // Delete a task from the list
-  const handleDeleteTask = (taskToDelete) => {
-    const updatedTasks = tasks.filter((task) => task !== taskToDelete);
+  // Mark task as completed
+  const handleToggleComplete = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].completed = !updatedTasks[index].completed;
+    setTasks(updatedTasks);
+  };
+
+  // Delete a task
+  const handleDeleteTask = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
   };
 
   /* ----------------- Render UI ----------------- */
   return (
     <div className="self-care-container">
-      <h3>Self Care</h3>
+      <h3>Self Care (?)</h3>
 
-      {/* Input Section */}
+      {/* Task Input */}
       <div className="task-input">
         <input
           type="text"
@@ -59,7 +71,7 @@ const SelfCare = () => {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
         />
-        <button onClick={handleAddTask}>➕ </button>
+        <button onClick={handleAddTask}>➕ Add</button>
       </div>
 
       {/* Suggested Tasks */}
@@ -78,9 +90,14 @@ const SelfCare = () => {
           <p className="no-tasks">You have no tasks</p>
         ) : (
           tasks.map((task, index) => (
-            <div key={index} className="task-item">
-              <span>{task}</span>
-              <button onClick={() => handleDeleteTask(task)}>❌</button>
+            <div key={index} className={`task-item ${task.completed ? "completed" : ""}`}>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => handleToggleComplete(index)}
+              />
+              <span>{task.text}</span>
+              <button onClick={() => handleDeleteTask(index)}>❌</button>
             </div>
           ))
         )}

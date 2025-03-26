@@ -1,5 +1,4 @@
 import FocusVideos from "./focusVideos";
-import SelfCare from "./selfCTasks";
 
 const FocusHelpPage = () => {
 
@@ -10,9 +9,6 @@ const FocusHelpPage = () => {
             <div className="focus-help-container">
                 <div>
                     <FocusVideos />
-                </div>
-                <div>
-                    <SelfCare />
                 </div>
             </div>
         </div>

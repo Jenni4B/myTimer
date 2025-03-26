@@ -13,9 +13,10 @@ import { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Card from "./components/common/Card";
-import FocusHelpPage from './components/selfCare/focusHelp';
 import Progress from "./components/analytics/Progress";
 import Settings from './components/settings/Settings';
+import SelfCarePage from './components/selfCare/selfCarePage';
+import FocusHelpPage from './components/focusVideos/focusHelpPage';
 
 import Achievements from "./components/achievements/achievements";
 import { AchievementsProvider } from "./context/achievementsContext";
@@ -40,19 +41,22 @@ function App() {
                             <h2 id='headerTimeWise'>Time Wise</h2>
                             <ul>
                                 <li><Link to="/">Timer</Link></li>
-                                <li><Link to="/settings">Settings</Link></li>
+                                <li><Link to="/focusHelp">Focus Help Page</Link></li>
+                                <li><Link to="/selfCare">Self Care Page</Link></li>
                                 <li><Link to="/progress">Progress</Link></li>
                                 <li><Link to="/achievements">Achievements</Link></li>
-                                <li><Link to="/focushelp">Focus Help</Link></li>
+                                <li><Link to="/settings">Settings</Link></li>
+
                             </ul>
                         </nav>
 
                         <Routes>
                             <Route path="/" element={<Card />} />
-                            <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
+                            <Route path="/focusHelp" element={<FocusHelpPage />} />
+                            <Route path="/selfCare" element={<SelfCarePage />} />
                             <Route path="/progress" element={<Progress />} />
                             <Route path="/achievements" element={<Achievements />} />
-                            <Route path="/focushelp" element={<FocusHelpPage />} />
+                            <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
                         </Routes>
                         
                         {/* Add ToastContainer for notifications */}
