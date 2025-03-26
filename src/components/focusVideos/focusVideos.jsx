@@ -17,7 +17,9 @@ const FocusVideos = () => {
 
   // Save updated video list to local storage whenever videoLinks change
   useEffect(() => {
-    localStorage.setItem("videoLinks", JSON.stringify(videoLinks));
+    if (videoLinks.length > 0) {
+      localStorage.setItem("videoLinks", JSON.stringify(videoLinks));
+    }
   }, [videoLinks]);
 
   /* ----------------- Helper Functions ----------------- */
@@ -35,33 +37,41 @@ const FocusVideos = () => {
   // Handles adding a new video to the list
   const handleAddVideo = () => {
     const embedUrl = getEmbedUrl(newVideo);
-    
-    if (embedUrl) {
-      const updatedVideos = [...videoLinks, embedUrl];
-      setVideoLinks(updatedVideos);
-      setNewVideo("");
 
-      // Save updated list to local storage
-      localStorage.setItem("videoLinks", JSON.stringify(updatedVideos));
-    } else {
+    if (!embedUrl) {
       alert("Invalid YouTube link. Please use a valid YouTube video URL.");
+      return;
     }
+
+    // Prevent duplicate entries
+    if (videoLinks.includes(embedUrl)) {
+      alert("This video is already in the list.");
+      return;
+    }
+
+    setVideoLinks((prevVideos) => {
+      const updatedVideos = [...prevVideos, embedUrl];
+      localStorage.setItem("videoLinks", JSON.stringify(updatedVideos));
+      return updatedVideos;
+    });
+
+    setNewVideo(""); // Clear input field
   };
 
   // Handles deleting a video from the list
   const handleDeleteVideo = (videoUrl) => {
-    const updatedVideos = videoLinks.filter((video) => video !== videoUrl);
-    setVideoLinks(updatedVideos);
-
-    // Update local storage
-    localStorage.setItem("videoLinks", JSON.stringify(updatedVideos));
+    setVideoLinks((prevVideos) => {
+      const updatedVideos = prevVideos.filter((video) => video !== videoUrl);
+      localStorage.setItem("videoLinks", JSON.stringify(updatedVideos));
+      return updatedVideos;
+    });
   };
 
-  /* ----------------- Render UI ----------------- */
   return (
     <div className="focus-videos-container">
+      <h3>Focus Videos</h3>
       
-      {/* Video Input Section */}
+      {/* Input Section */}
       <div className="video-input">
         <input
           type="text"
@@ -69,31 +79,25 @@ const FocusVideos = () => {
           value={newVideo}
           onChange={(e) => setNewVideo(e.target.value)}
         />
-        <button onClick={handleAddVideo}>Submit</button>
+        <button onClick={handleAddVideo}>➕ Add Video</button>
       </div>
 
-      {/* Video Display Section */}
+      {/* Video List */}
       <div className="video-grid">
-        {videoLinks.map((videoUrl, index) => (
-          <div key={index} className="video-item">
-            
-            {/* Embedded YouTube Video */}
-            <iframe 
-              src={videoUrl} 
-              title={`Focus Video ${index + 1}`} 
-              allowFullScreen 
-            />
-            
-            {/* Delete Button */}
-            <button 
-              className="delete-button" 
-              onClick={() => handleDeleteVideo(videoUrl)}
-            >
-              ❌
-            </button>
-            
-          </div>
-        ))}
+        {videoLinks.length === 0 ? (
+          <p>No videos added yet.</p>
+        ) : (
+          videoLinks.map((video, index) => (
+            <div key={index} className="video-item">
+              <iframe
+                src={video}
+                title={`Focus Video ${index + 1}`}
+                allowFullScreen
+              />
+              <button onClick={() => handleDeleteVideo(video)}>❌ Delete</button>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

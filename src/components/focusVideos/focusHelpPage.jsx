@@ -4,7 +4,9 @@ const FocusHelpPage = () => {
 
     return(
         <div>
-            <p>This page provides assistance for users who need help with their tasks.</p>
+            <p>On this page, you can add background noise like white noise or lofi music, 
+                so you don&apos;t have to search for it on Youtube!
+            </p>
 
             <div className="focus-help-container">
                 <div>

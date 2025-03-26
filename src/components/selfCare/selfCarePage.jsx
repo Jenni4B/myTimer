@@ -1,4 +1,4 @@
-import SelfCare from "./selfCareTasks/selfCTasks";
+import SelfCareTasks from "./selfCareTasks/selfCTasks";
 
 const SelfCarePage = () => {
 
@@ -8,7 +8,7 @@ const SelfCarePage = () => {
 
             <div className="focus-help-container">
                 <div>
-                    <SelfCare />
+                    <SelfCareTasks />
                 </div>
             </div>
         </div>

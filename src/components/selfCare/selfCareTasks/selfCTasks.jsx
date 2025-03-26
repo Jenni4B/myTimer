@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const SelfCare = () => {
+const SelfCareTasks = () => {
   // Suggested self-care tasks
   const suggestedTasks = [
     "Drink water",
@@ -10,22 +10,26 @@ const SelfCare = () => {
     "Deep breathing exercise",
     "Write in a journal",
     "Listen to calming music",
-    "Read a book for 10 mins"
+    "Read a book for 10 mins",
   ];
 
   // State for user-added tasks
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
 
-  // Load tasks from localStorage when the component mounts
+  /* ----------------- Load & Save Tasks to Local Storage ----------------- */
+
+  // Load tasks from local storage when the component mounts
   useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("selfCareTasks")) || [];
     setTasks(savedTasks);
   }, []);
 
-  // Save tasks to localStorage whenever they change
+  // Save tasks to local storage whenever they change
   useEffect(() => {
-    localStorage.setItem("selfCareTasks", JSON.stringify(tasks));
+    if (tasks.length > 0) {
+      localStorage.setItem("selfCareTasks", JSON.stringify(tasks));
+    }
   }, [tasks]);
 
   /* ----------------- Event Handlers ----------------- */
@@ -33,28 +37,49 @@ const SelfCare = () => {
   // Add a new custom task
   const handleAddTask = () => {
     if (newTask.trim()) {
-      setTasks([...tasks, { text: newTask, completed: false }]);
+      const newTaskObj = { id: Date.now(), text: newTask, completed: false };
+      
+      setTasks((prevTasks) => {
+        const updatedTasks = [...prevTasks, newTaskObj];
+        localStorage.setItem("selfCareTasks", JSON.stringify(updatedTasks));
+        return updatedTasks;
+      });
+
       setNewTask("");
     }
   };
 
-  const handleDeleteTask = (taskId) => {
-    const updatedTasks = tasks.filter((task) => task.id !== taskId);
-    setTasks(updatedTasks);
-  };
-
-  // Add a suggested task
+  // Add a suggested task (prevents duplicates)
   const handleAddSuggestedTask = (task) => {
     if (!tasks.some((t) => t.text === task)) {
-      setTasks([...tasks, { text: task, completed: false }]);
+      const newTaskObj = { id: Date.now(), text: task, completed: false };
+      
+      setTasks((prevTasks) => {
+        const updatedTasks = [...prevTasks, newTaskObj];
+        localStorage.setItem("selfCareTasks", JSON.stringify(updatedTasks));
+        return updatedTasks;
+      });
     }
   };
 
   // Mark task as completed
-  const handleToggleComplete = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].completed = !updatedTasks[index].completed;
-    setTasks(updatedTasks);
+  const handleToggleComplete = (taskId) => {
+    setTasks((prevTasks) => {
+      const updatedTasks = prevTasks.map((task) =>
+        task.id === taskId ? { ...task, completed: !task.completed } : task
+      );
+      localStorage.setItem("selfCareTasks", JSON.stringify(updatedTasks));
+      return updatedTasks;
+    });
+  };
+
+  // Delete a task
+  const handleDeleteTask = (taskId) => {
+    setTasks((prevTasks) => {
+      const updatedTasks = prevTasks.filter((task) => task.id !== taskId);
+      localStorage.setItem("selfCareTasks", JSON.stringify(updatedTasks));
+      return updatedTasks;
+    });
   };
 
   /* ----------------- Render UI ----------------- */
@@ -88,15 +113,15 @@ const SelfCare = () => {
         {tasks.length === 0 ? (
           <p className="no-tasks">You have no tasks</p>
         ) : (
-          tasks.map((task, index) => (
-            <div key={index} className={`task-item ${task.completed ? "completed" : ""}`}>
+          tasks.map((task) => (
+            <div key={task.id} className={`task-item ${task.completed ? "completed" : ""}`}>
               <input
                 type="checkbox"
                 checked={task.completed}
-                onChange={() => handleToggleComplete(index)}
+                onChange={() => handleToggleComplete(task.id)}
               />
               <span>{task.text}</span>
-              <button onClick={() => handleDeleteTask(index)}>❌</button>
+              <button onClick={() => handleDeleteTask(task.id)}>❌</button>
             </div>
           ))
         )}
@@ -105,4 +130,4 @@ const SelfCare = () => {
   );
 };
 
-export default SelfCare;
+export default SelfCareTasks;
