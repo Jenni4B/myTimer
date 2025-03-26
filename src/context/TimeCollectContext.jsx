@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const TimeCollectContext = createContext();
 
-export const TimeCollectProvider = ({ children }) => {
+const TimeCollectProvider = ({ children }) => {
     const [sessionData, setSessionData] = useState([]); // Stores all sessions
     const [dailyFocusTime, setDailyFocusTime] = useState({}); // An object that stores total focus time
 
@@ -41,31 +41,26 @@ export const TimeCollectProvider = ({ children }) => {
 
 
     // Calculate total focus time per day
-    const updateDailyFocus = (sessions) => {
-        const dailyStats = sessions.reduce((acc, session) => {
-            if (!session.timestamp || !session.duration) return acc; // Skip invalid data
-            const sessionDate = new Date(session.timestamp).toLocaleDateString();
-            acc[sessionDate] = (acc[sessionDate] || 0) + session.duration;
-            return acc;
-        }, {});
-        setDailyFocusTime(dailyStats);
+    const getDailyFocusArray = () => {
+        return Object.keys(dailyFocusTime).map(date => ({
+            date, 
+            focusTime: dailyFocusTime[date] // Minutes spent focusing
+        }));
     };
-    
-
-    // Run daily focus update when sessionData changes
-    useEffect(() => {
-        updateDailyFocus(sessionData);
-    }, [sessionData]);
 
     return (
         <TimeCollectContext.Provider value={{
             sessionData,
             saveSession,
             dailyFocusTime,
+            setDailyFocusTime,
+            getDailyFocusArray,
         }}>
             {children}
         </TimeCollectContext.Provider>
     )
 }
 
-export const useTimeCollect = () => useContext(TimeCollectContext)
+const useTimeCollect = () => useContext(TimeCollectContext)
+
+export { TimeCollectProvider, useTimeCollect };

@@ -1,5 +1,3 @@
-import React from "react";
-
 const StreakCounter = ({ completedSessions, sessionStreak }) => {
   return (
     <div className="p-6 bg-gray-800 rounded-lg shadow-lg text-white">

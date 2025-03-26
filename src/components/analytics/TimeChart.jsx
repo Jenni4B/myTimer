@@ -1,5 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
+
 const data = [
   { day: 'Mon', focusTime: 120 },
   { day: 'Tue', focusTime: 150 },

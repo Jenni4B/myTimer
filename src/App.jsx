@@ -41,8 +41,8 @@ function App() {
                             <h2 id='headerTimeWise'>Time Wise</h2>
                             <ul>
                                 <li><Link to="/">Timer</Link></li>
-                                <li><Link to="/focusHelp">Focus Help Page</Link></li>
-                                <li><Link to="/selfCare">Self Care Page</Link></li>
+                                <li><Link to="/focusHelp">Focus Help</Link></li>
+                                <li><Link to="/selfCare">Self Care</Link></li>
                                 <li><Link to="/progress">Progress</Link></li>
                                 <li><Link to="/achievements">Achievements</Link></li>
                                 <li><Link to="/settings">Settings</Link></li>
