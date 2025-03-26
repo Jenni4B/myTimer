@@ -35,7 +35,7 @@ const CustomTime = ({ onTimeChange }) => {
   };
 
   return (
-    <div className="p-4 border border-gray-700 rounded-lg">
+    <div className="customTime">
       <h3 className="text-xl font-semibold mb-3">Set Focus Time</h3>
       <div className="flex flex-col space-y-4">
         <div className="flex items-center">

@@ -1,7 +1,8 @@
-import ThemeMode from "../hooks/themeMode";
-import CustomTime from "./customTime";
 import BreakTimeSettings from "./BreakTimeSettings";
+import CustomTime from "./customTime";
+import DataDownload from "../analytics/DownloadData";
 import NotificationSystem from "../feedback/NotificationSystem";
+import ThemeMode from "../hooks/themeMode";
 import useTimer from "../hooks/useTimer";
 
 
@@ -26,6 +27,7 @@ const Settings = ({ setTheme, theme }) => {
             <ThemeMode setTheme={setTheme} theme={theme} />
           </div>
           <CustomTime />
+          <DataDownload />
         </div>
 
         {/* Right Column */}

@@ -5,29 +5,24 @@ body.dark .App {
     color: #e0e0e0;
   }
   
-body.dark .controlButton {
-    background-color: #444;
+
+body.dark button {
+    background-color: #1b0c52;
     color: white;
   }
   
-body.dark .navbar {
-    background-color: #392461; /* Added dark mode background for navbar */
-  }
-  
-  
-  /* DARK MODE NAVBAR */
+/* DARK MODE NAVBAR */
 body.dark .navbar ul li a {
     color: #bb86fc;
   }
   
+body.dark .navbar {
+      background-color: #392461; /* Added dark mode background for navbar */
+    }
 body.dark .navbar ul li a:hover {
     color: #9a6de9;
   }
 
-body.dark button {
-  background-color: #1b0c52;
-  color: white;
-}
 
 /* Focus help card */
 

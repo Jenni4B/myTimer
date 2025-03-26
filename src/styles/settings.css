@@ -27,20 +27,24 @@
   
 .settings-box {
     padding: 1rem;
-    border: 1px solid #000000;
+    border: 1px solid rgb(0, 0, 0);
     border-radius: 0.5rem;
     
+}
+
+.customTime {
+    color: white;
+    padding: 0.5rem;
+    border: 1px solid rgb(0, 0, 0);
 }
   
 .danger-zone {
     text-align: center;
     border: 1px solid rgb(0, 0, 0);
-}
-  
-.danger-zone h3 {
     font-size: 1.125rem; /* text-lg */
     font-weight: 600;
     color: white;
     margin-bottom: 0.5rem;
-    border: 1px solid #000000; 
+    border: 1px solid rgb(0, 0, 0); 
 }
+  
