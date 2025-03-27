@@ -8,13 +8,19 @@ class ErrorBoundary extends Component {
   }
 
   componentDidMount() {
-    // Simulate a loading error
-    setTimeout(() => {
-      if (!this.props.children) {
-        throw new Error("Failed to load UI");
-      }
-    }, 1000); // Adjust the delay as needed
+    try {
+      // Simulate a loading error
+      setTimeout(() => {
+        if (!this.props.children) {
+          throw new Error("Failed to load UI");
+        }
+      }, 1000); // Adjust the delay as needed
+    } catch (error) {
+      this.setState({ hasError: true });
+      console.error("Caught by ErrorBoundary:", error);
+    }
   }
+
 
   componentDidCatch(error, errorInfo) {
     console.error("Caught by ErrorBoundary:", error, errorInfo);

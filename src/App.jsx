@@ -20,7 +20,9 @@ import FocusHelpPage from './components/focusVideos/focusHelpPage';
 
 import Achievements from "./components/achievements/achievements";
 import { AchievementsProvider } from "./context/achievementsContext";
+
 import { TimerProvider } from "./context/TimerContext";
+import { TimeCollectProvider } from './context/TimeCollectContext';
 
 function App() {
     // Load saved theme from localStorage (default to 'light')
@@ -31,38 +33,37 @@ function App() {
         document.body.className = theme;
         localStorage.setItem('theme', theme);
     }, [theme]);
-
     return (
         <AchievementsProvider>
-            <TimerProvider> {/* Add TimerProvider to wrap the app */}
-                <Router>
-                    <div className={`App ${theme}`}>
-                        <nav className="navbar">
-                            <h2 id='headerTimeWise'>Time Wise</h2>
-                            <ul>
-                                <li><Link to="/">Timer</Link></li>
-                                <li><Link to="/focusHelp">Focus Help</Link></li>
-                                <li><Link to="/selfCare">Self Care</Link></li>
-                                <li><Link to="/progress">Progress</Link></li>
-                                <li><Link to="/achievements">Achievements</Link></li>
-                                <li><Link to="/settings">Settings</Link></li>
+            <TimerProvider>
+                <TimeCollectProvider> {/* ✅ Wrap Everything in TimeCollectProvider */}
+                    <Router>
+                        <div className={`App ${theme}`}>
+                            <nav className="navbar">
+                                <h2 id='headerTimeWise'>Time Wise</h2>
+                                <ul>
+                                    <li><Link to="/">Timer</Link></li>
+                                    <li><Link to="/focusHelp">Focus Help</Link></li>
+                                    <li><Link to="/selfCare">Self Care</Link></li>
+                                    <li><Link to="/progress">Progress</Link></li>
+                                    <li><Link to="/achievements">Achievements</Link></li>
+                                    <li><Link to="/settings">Settings</Link></li>
+                                </ul>
+                            </nav>
 
-                            </ul>
-                        </nav>
+                            <Routes>
+                                <Route path="/" element={<Card />} />
+                                <Route path="/focusHelp" element={<FocusHelpPage />} />
+                                <Route path="/selfCare" element={<SelfCarePage />} />
+                                <Route path="/progress" element={<Progress />} />
+                                <Route path="/achievements" element={<Achievements />} />
+                                <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
+                            </Routes>
 
-                        <Routes>
-                            <Route path="/" element={<Card />} />
-                            <Route path="/focusHelp" element={<FocusHelpPage />} />
-                            <Route path="/selfCare" element={<SelfCarePage />} />
-                            <Route path="/progress" element={<Progress />} />
-                            <Route path="/achievements" element={<Achievements />} />
-                            <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
-                        </Routes>
-                        
-                        {/* Add ToastContainer for notifications */}
-                        <ToastContainer />
-                    </div>
-                </Router>
+                            <ToastContainer />
+                        </div>
+                    </Router>
+                </TimeCollectProvider>
             </TimerProvider>
         </AchievementsProvider>
     );

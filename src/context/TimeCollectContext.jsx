@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const TimeCollectContext = createContext();
 
-const TimeCollectProvider = ({ children }) => {
+export const TimeCollectProvider = ({ children }) => {
     const [sessionData, setSessionData] = useState([]); // Stores all sessions
     const [dailyFocusTime, setDailyFocusTime] = useState({}); // An object that stores total focus time
 
@@ -71,6 +71,4 @@ const TimeCollectProvider = ({ children }) => {
     )
 }
 
-const useTimeCollect = () => useContext(TimeCollectContext)
-
-export { TimeCollectProvider, useTimeCollect };
+export const useTimeCollect = () => useContext(TimeCollectContext)
