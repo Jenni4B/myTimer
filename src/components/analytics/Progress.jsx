@@ -1,7 +1,7 @@
 import ErrorBoundary from "../common/ErrorBoundary";
 import StreakCounter from "./StreakCounter";
 import useTimer from "../hooks/useTimer";
-import FocusTimeChart from "./TimeChart";
+import ToggleChart from "./charts/toggleChart";
 
 const Progress = () => {
   const { completedSessions, sessionStreak } = useTimer();
@@ -16,8 +16,9 @@ const Progress = () => {
             sessionStreak={sessionStreak} 
           />
         </div>
-        <div>
-          <FocusTimeChart />
+        <div className="flex justify-between">
+          <h2>Focus Progress</h2>
+          <ToggleChart />
         </div>
       </ErrorBoundary>
     </div>

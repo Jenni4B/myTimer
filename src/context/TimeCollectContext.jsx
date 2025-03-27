@@ -39,6 +39,15 @@ const TimeCollectProvider = ({ children }) => {
         localStorage.setItem('sessions', JSON.stringify(updatedSessions));
     };
 
+    const formatChartData = (dailyFocus) => {
+        return Object.entries(dailyFocus).map(([date, focusTime]) => ({
+            date,
+            focusTime
+        }));
+    };
+    
+    const formattedChartData = formatChartData(dailyFocusTime);
+    
 
     // Calculate total focus time per day
     const getDailyFocusArray = () => {
@@ -55,6 +64,7 @@ const TimeCollectProvider = ({ children }) => {
             dailyFocusTime,
             setDailyFocusTime,
             getDailyFocusArray,
+            formattedChartData,
         }}>
             {children}
         </TimeCollectContext.Provider>
