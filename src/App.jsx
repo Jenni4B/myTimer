@@ -4,6 +4,7 @@ import './styles/app.css';
 import './styles/buttons.css';
 import './styles/focusHelp.css';
 import './styles/navbar.css';
+import './styles/progress.css';
 import './styles/settings.css';
 import './styles/theme.css';
 

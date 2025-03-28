@@ -9,23 +9,24 @@ const Progress = () => {
   const { dailyFocusTime } = useTimeCollect();
 
   return (
-    <div className="p-6 bg-gray-900 rounded-lg shadow-lg">
+    <div className="progress-container">
       <ErrorBoundary>
-        <h2 className="text-2xl font-bold mb-4">Your Progress</h2>
+        <h2 className="text-2xl font-bold">Your Progress</h2>
 
-        <div className="progressBox">
+        {/* Streak Counter */}
+        <div className="sessionTracker">
           <StreakCounter 
             completedSessions={completedSessions} 
             sessionStreak={sessionStreak} 
           />
         </div>
 
-        <div className="flex justify-between">
-          <h2>Focus Progress</h2>
-          <ToggleChart dailyFocusData={dailyFocusTime}/>
+        {/* Focus Progress & Chart */}
+        <div className="chart-container">
+          <h2 className="text-xl font-bold">Focus Progress</h2>
+          <ToggleChart dailyFocusData={dailyFocusTime} />
         </div>
       </ErrorBoundary>
-      
     </div>
   );
 };
