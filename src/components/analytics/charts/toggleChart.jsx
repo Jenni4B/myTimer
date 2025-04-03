@@ -4,56 +4,67 @@ import FocusBarChart from "./barChart";
 import FocusLineChart from "./lineChart";
 
 const ToggleChart = () => {
-  const { getDailyFocusArray } = useTimeCollect();
+  const { sessionData, dailyFocusTime } = useTimeCollect();
   const [chartType, setChartType] = useState("bar");
   const [timeFilter, setTimeFilter] = useState("weekly");
 
-  // Get formatted chart data
+  // Convert daily focus time object into an array for filtering
   const formattedChartData = useMemo(() => {
-    const data = getDailyFocusArray() || []; // Ensure data is always an array
-    console.log("Formatted Chart Data:", data); // Debug log
-    return data;
-  }, [getDailyFocusArray]);
+    const chartData = Object.entries(dailyFocusTime).map(([date, focusTime]) => ({
+      date,
+      focusTime,
+    }));
+    return chartData;
+  }, [dailyFocusTime]);
 
   // Function to filter data based on selected time range
-  const getFilteredData = useMemo(() => {
+  const filteredData = useMemo(() => {
     if (!formattedChartData.length) return [];
 
-    const today = new Date();
+    const now = new Date();
+
     return formattedChartData.filter(({ date }) => {
       const sessionDate = new Date(date);
+
       switch (timeFilter) {
         case "daily":
-          return sessionDate.toDateString() === today.toDateString();
-        case "weekly":
-          return sessionDate >= new Date(today.setDate(today.getDate() - 7));
-        case "monthly":
-          return sessionDate >= new Date(today.setMonth(today.getMonth() - 1));
+          return sessionDate.toDateString() === now.toDateString();
+        case "weekly": {
+          const weekAgo = new Date(now);
+          weekAgo.setDate(now.getDate() - 7);
+          return sessionDate >= weekAgo;
+        }
+        case "monthly": {
+          const monthAgo = new Date(now);
+          monthAgo.setMonth(now.getMonth() - 1);
+          return sessionDate >= monthAgo;
+        }
         default:
-          return false;
+          return true;
       }
     });
   }, [formattedChartData, timeFilter]);
 
   // Show message if no data is available
-  if (!formattedChartData.length) {
-    return (
-      <div className="text-center text-gray-500 p-4">
-        <p>No focus time data available yet.</p>
-        <p>Start a focus session to see your progress!</p>
-      </div>
-    );
-  }
+  // if (!formattedChartData.length) {
+  //   return (
+  //     <div className="text-center text-gray-500 p-8 rounded-lg border border-gray-200">
+  //       <p className="text-lg font-medium mb-2">Start a focus session to see your progress!</p>
+  //     </div>
+  //   );
+  // }
 
   return (
-    <div className="mainProgressBox">
+    <div className="focus-chart-container p-4 rounded-lg border border-gray-200">
       {/* Time Filter Buttons */}
-      <div className="timeFilterContainer">
+      <div className="time-filter-buttons flex space-x-2 mb-4">
         {["daily", "weekly", "monthly"].map((filter) => (
           <button
             key={filter}
             onClick={() => setTimeFilter(filter)}
-            className={`btn ${timeFilter === filter ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            className={`px-4 py-2 rounded-md transition-colors ${
+              timeFilter === filter ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+            }`}
           >
             {filter.charAt(0).toUpperCase() + filter.slice(1)}
           </button>
@@ -61,12 +72,14 @@ const ToggleChart = () => {
       </div>
 
       {/* Chart Toggle Buttons */}
-      <div className="chartTypeButtonContainer">
+      <div className="chart-type-buttons flex space-x-2 mb-4">
         {["bar", "line"].map((type) => (
           <button
             key={type}
             onClick={() => setChartType(type)}
-            className={`btn ${chartType === type ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            className={`px-4 py-2 rounded-md transition-colors ${
+              chartType === type ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+            }`}
           >
             {type === "bar" ? "Bar Chart" : "Line Chart"}
           </button>
@@ -74,11 +87,15 @@ const ToggleChart = () => {
       </div>
 
       {/* Chart Display */}
-      <div className="chart">
-        {chartType === "bar" ? (
-          <FocusBarChart data={getFilteredData} />
+      <div className="chart-container h-64 mt-4">
+        {filteredData.length === 0 ? (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            <p>No data available for the selected time period.</p>
+          </div>
+        ) : chartType === "bar" ? (
+          <FocusBarChart data={filteredData} />
         ) : (
-          <FocusLineChart data={getFilteredData} />
+          <FocusLineChart data={filteredData} />
         )}
       </div>
     </div>
