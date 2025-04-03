@@ -8,6 +8,7 @@ const ToggleChart = () => {
   const [chartType, setChartType] = useState("bar");
   const [timeFilter, setTimeFilter] = useState("weekly");
 
+  
   // Convert daily focus time object into an array for filtering
   const formattedChartData = useMemo(() => {
     const chartData = Object.entries(dailyFocusTime).map(([date, focusTime]) => ({
@@ -16,7 +17,8 @@ const ToggleChart = () => {
     }));
     return chartData;
   }, [dailyFocusTime]);
-
+  
+  console.log(formattedChartData)
   // Function to filter data based on selected time range
   const filteredData = useMemo(() => {
     if (!formattedChartData.length) return [];
@@ -56,6 +58,7 @@ const ToggleChart = () => {
 
   return (
     <div className="focus-chart-container p-4 rounded-lg border border-gray-200">
+
       {/* Time Filter Buttons */}
       <div className="time-filter-buttons flex space-x-2 mb-4">
         {["daily", "weekly", "monthly"].map((filter) => (
