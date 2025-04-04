@@ -6,7 +6,7 @@ const FocusBarChart = ({ data }) => {
             <BarChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
-                <YAxis />
+                <YAxis dataKey="Time Spent"/>
                 <Tooltip />
                 <Bar dataKey="focusTime" fill="#8884d8" />
             </BarChart>
