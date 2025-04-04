@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react"
 
 const TimeCollectContext = createContext()
 
-export const TimeCollectProvider = ({ children }) => {
+const TimeCollectProvider = ({ children }) => {
   const [sessionData, setSessionData] = useState([])
   const [dailyFocusTime, setDailyFocusTime] = useState({})
   const [focusStats, setFocusStats] = useState({
@@ -168,4 +168,4 @@ export const TimeCollectProvider = ({ children }) => {
   )
 }
 
-export const useTimeCollect = () => useContext(TimeCollectContext)
+export {TimeCollectProvider, TimeCollectContext}

@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react"
-import { useTimeCollect } from "../../../context/TimeCollectContext"
+import { useTimeCollect } from "../../hooks/useTimeCollect"
 import FocusBarChart from "./barChart"
 import FocusLineChart from "./lineChart"
 
@@ -11,7 +11,7 @@ const ToggleChart = () => {
   // Get formatted chart data from the context
   const formattedChartData = useMemo(() => {
     const data = getDailyFocusArray()
-    console.log("📊 Formatted Chart Data:", data) // Debugging log
+    console.log("Formatted Chart Data:", data) // Debugging log
     return data || []
   }, [getDailyFocusArray])
 
