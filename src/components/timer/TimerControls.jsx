@@ -1,6 +1,8 @@
+import { useEffect, useRef } from "react";
+
 import Button from "../common/Button";
 import TimerTypeSelector from "./TimerTypeSelector";
-import { useEffect, useRef } from "react";
+
 import useTimer from "../hooks/useTimer";
 
 const TimerControls = () => {
@@ -8,9 +10,10 @@ const TimerControls = () => {
     timerType, setTimerType, totalSeconds, isRunning, isPaused, 
     startTimer, pauseTimer, resumeTimer, resetTimer 
   } = useTimer();
-  
-  // Store the initial seconds for the progress bar
+
+  // Store the initial seconds 
   const initialSeconds = useRef(totalSeconds);
+
   
   // Update initialSeconds when timer type changes or is reset
   useEffect(() => {
