@@ -59,15 +59,6 @@ const ToggleChart = () => {
     )
   }
 
-  // Show message if no data is available
-  if (!filteredData.length) {
-    return (
-      <div className="text-center text-gray-500 p-8 rounded-lg border border-gray-200">
-        <p className="text-lg font-medium mb-2">Start a focus session to see your progress!</p>
-      </div>
-    )
-  }
-
   return (
     <div className="focus-chart-container p-4 rounded-lg border border-gray-200">
       {/* Time Filter Buttons */}
@@ -84,7 +75,7 @@ const ToggleChart = () => {
           </button>
         ))}
       </div>
-
+  
       {/* Chart Toggle Buttons */}
       <div className="chart-type-buttons flex space-x-2 mb-4">
         {["bar", "line"].map((type) => (
@@ -99,7 +90,7 @@ const ToggleChart = () => {
           </button>
         ))}
       </div>
-
+  
       {/* Chart Display */}
       <div className="chart-container h-64 mt-4">
         {filteredData.length === 0 ? (
@@ -114,6 +105,7 @@ const ToggleChart = () => {
       </div>
     </div>
   )
+  
 }
 
 export default ToggleChart
