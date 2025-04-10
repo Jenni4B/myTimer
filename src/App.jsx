@@ -36,42 +36,41 @@ function App() {
         localStorage.setItem('theme', theme);
     }, [theme]);
     return (
-        // Wrapping everything in ErrorBoundary to catch errors in the app
         <ErrorBoundary>
-            <AchievementsProvider>
-                <TimerProvider>
-                    <TimeCollectProvider>
-                        <Router>
-                            <div className={`App ${theme}`}>
-                                <nav className="navbar">
-                                    <h2 id='headerTimeWise'>Time Wise</h2>
-                                    <ul>
-                                        <li><Link to="/">Timer</Link></li>
-                                        <li><Link to="/focusHelp">Focus Help</Link></li>
-                                        <li><Link to="/selfCare">Self Care</Link></li>
-                                        <li><Link to="/progress">Progress</Link></li>
-                                        <li><Link to="/achievements">Achievements</Link></li>
-                                        <li><Link to="/settings">Settings</Link></li>
-                                    </ul>
-                                </nav>
-
-                                <Routes>
-                                    <Route path="/" element={<Card />} />
-                                    <Route path="/focusHelp" element={<FocusHelpPage />} />
-                                    <Route path="/selfCare" element={<SelfCarePage />} />
-                                    <Route path="/progress" element={<Progress />} />
-                                    <Route path="/achievements" element={<Achievements />} />
-                                    <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
-                                </Routes>
-
-                                <ToastContainer />
-                            </div>
-                        </Router>
-                    </TimeCollectProvider>
-                </TimerProvider>
-            </AchievementsProvider>
+          <AchievementsProvider>
+            <TimeCollectProvider>
+              <TimerProvider>
+                <Router>
+                  <div className={`App ${theme}`}>
+                    <nav className="navbar">
+                      <h2 id='headerTimeWise'>Time Wise</h2>
+                      <ul>
+                        <li><Link to="/">Timer</Link></li>
+                        <li><Link to="/focusHelp">Focus Help</Link></li>
+                        <li><Link to="/selfCare">Self Care</Link></li>
+                        <li><Link to="/progress">Progress</Link></li>
+                        <li><Link to="/achievements">Achievements</Link></li>
+                        <li><Link to="/settings">Settings</Link></li>
+                      </ul>
+                    </nav>
+      
+                    <Routes>
+                      <Route path="/" element={<Card />} />
+                      <Route path="/focusHelp" element={<FocusHelpPage />} />
+                      <Route path="/selfCare" element={<SelfCarePage />} />
+                      <Route path="/progress" element={<Progress />} />
+                      <Route path="/achievements" element={<Achievements />} />
+                      <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
+                    </Routes>
+      
+                    <ToastContainer />
+                  </div>
+                </Router>
+              </TimerProvider>
+            </TimeCollectProvider>
+          </AchievementsProvider>
         </ErrorBoundary>
-    );
+      );      
 }
 
 export default App;
