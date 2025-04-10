@@ -1,20 +1,31 @@
-import { createContext, useState, useEffect, useCallback, useRef } from "react";
+import {
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
+
 import { useAchievements } from "./achievementsContext";
 import showNotification from "../components/feedback/ShowNotification";
 import playSessionCompleteSound from "../components/hooks/sessionCompleteSound";
+import { useSaveSession } from "../components/hooks/useSaveSession";
 
 const TimerContext = createContext();
 
 const TimerProvider = ({ children }) => {
-  // Timer states
+  // === TIMER STATE ===
   const [timerType, setTimerType] = useState("focus"); // "focus" or "break"
   const [totalSeconds, setTotalSeconds] = useState(25 * 60);
   const [initialSeconds, setInitialSeconds] = useState(25 * 60);
-
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Progress tracking
+  const { saveSession } = useSaveSession();
+
+
+
+  // === TRACKING STATE ===
   const [completedSessions, setCompletedSessions] = useState(
     Number(localStorage.getItem("completedSessions")) || 0
   );
@@ -24,7 +35,7 @@ const TimerProvider = ({ children }) => {
   const [sessionData, setSessionData] = useState([]);
   const [dailyFocusTime, setDailyFocusTime] = useState({});
 
-  // Notifications
+  // === NOTIFICATIONS ===
   const [notificationsEnabled, setNotificationsEnabled] = useState(
     localStorage.getItem("notificationsEnabled") === "true"
   );
@@ -32,24 +43,28 @@ const TimerProvider = ({ children }) => {
   const { unlockAchievement } = useAchievements();
   const sessionStartTime = useRef(null);
 
-  /* ----------------- Load & Save Data ----------------- */
+  // === HELPERS ===
+  const calculateDailyFocusTimes = (sessions) =>
+    sessions.reduce((acc, { timestamp, duration }) => {
+      const date = timestamp.split("T")[0];
+      acc[date] = (acc[date] || 0) + duration;
+      return acc;
+    }, {});
 
-  // Load timer settings (focus/break durations)
-  const loadTimerSettings = (type) => {
+  const loadTimerSettings = useCallback((type) => {
     const minutesKey = type === "focus" ? "focusMinutes" : "breakMinutes";
     const secondsKey = type === "focus" ? "focusSeconds" : "breakSeconds";
     const defaultMinutes = type === "focus" ? 25 : 5;
-    
+
     const minutes = Number(localStorage.getItem(minutesKey)) || defaultMinutes;
     const seconds = Number(localStorage.getItem(secondsKey)) || 0;
     const total = minutes * 60 + seconds;
 
     setTotalSeconds(total);
     setInitialSeconds(total);
-  };
+  }, []);
 
-  // Load session data from localStorage
-  const loadSessionData = () => {
+  const loadSessionData = useCallback(() => {
     try {
       const storedSessions = JSON.parse(localStorage.getItem("sessions")) || [];
       setSessionData(storedSessions);
@@ -59,51 +74,34 @@ const TimerProvider = ({ children }) => {
       setSessionData([]);
       setDailyFocusTime({});
     }
-  };
+  }, []);
 
-  // Calculate daily focus times from session history
-  const calculateDailyFocusTimes = (sessions) =>
-    sessions.reduce((acc, { timestamp, duration }) => {
-      const date = timestamp.split("T")[0];
-      acc[date] = (acc[date] || 0) + duration;
-      return acc;
-    }, {});
+  // === EFFECTS ===
 
-  // Save a completed session
-  const saveSession = (duration) => {
-    const session = {
-      id: Date.now(),
-      timestamp: new Date().toISOString(),
-      duration: Math.floor(duration / 60000), // Convert ms to minutes
-    };
-
-    const updatedSessions = [...sessionData, session];
-    localStorage.setItem("sessions", JSON.stringify(updatedSessions));
-    setSessionData(updatedSessions);
-    setDailyFocusTime(calculateDailyFocusTimes(updatedSessions));
-  };
-
-  /* ----------------- Effects ----------------- */
-
-  // Load timer settings & session data on mount
+  // On mount: load session data + timer settings
   useEffect(() => {
     loadTimerSettings(timerType);
     loadSessionData();
-  }, []);
+  }, [loadTimerSettings, loadSessionData]);
 
-  // Sync timer settings when switching between focus/break modes
+  // When switching timer type
   useEffect(() => {
     if (!isRunning) loadTimerSettings(timerType);
-  }, [timerType, isRunning]);
+  }, [timerType, isRunning, loadTimerSettings]);
 
-  // Track session start time for focus sessions
+  // Track when focus session starts
   useEffect(() => {
-    if (isRunning && !isPaused && timerType === "focus" && !sessionStartTime.current) {
+    if (
+      isRunning &&
+      !isPaused &&
+      timerType === "focus" &&
+      !sessionStartTime.current
+    ) {
       sessionStartTime.current = Date.now();
     }
   }, [isRunning, isPaused, timerType]);
 
-  // Listen for localStorage changes (cross-tab syncing)
+  // Cross-tab sync
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === "notificationsEnabled") {
@@ -115,17 +113,16 @@ const TimerProvider = ({ children }) => {
 
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  }, [loadSessionData]);
 
-  /* ----------------- Timer Logic ----------------- */
-
+  // Timer countdown
   useEffect(() => {
     if (!isRunning || isPaused || totalSeconds <= 0) return;
-
     const timer = setInterval(() => setTotalSeconds((prev) => prev - 1), 1000);
     return () => clearInterval(timer);
   }, [isRunning, isPaused, totalSeconds]);
 
+  // Timer ends
   useEffect(() => {
     if (totalSeconds === 0 && isRunning) {
       setIsRunning(false);
@@ -133,28 +130,34 @@ const TimerProvider = ({ children }) => {
     }
   }, [totalSeconds, isRunning]);
 
+  // === TIMER COMPLETE ===
   const handleSessionComplete = useCallback(() => {
     if (timerType === "focus") {
       unlockAchievement("1");
 
       const sessionDuration = sessionStartTime.current
         ? Date.now() - sessionStartTime.current
-        : initialSeconds * 1000; // Fallback if start time is missing
+        : initialSeconds * 1000;
 
-      saveSession(sessionDuration);
+      // TODO: Integrate your useSaveSession hook here
+      // saveSession(sessionDuration);
+
       sessionStartTime.current = null;
 
       setCompletedSessions((prev) => {
         const newCount = prev + 1;
         localStorage.setItem("completedSessions", newCount);
+
         if (newCount >= 10) unlockAchievement("3");
         if (newCount >= 25) unlockAchievement("4");
+
         return newCount;
       });
 
       setSessionStreak((prev) => {
         const newStreak = prev + 1;
         localStorage.setItem("sessionStreak", newStreak);
+
         if (newStreak >= 3) unlockAchievement("2");
         return newStreak;
       });
@@ -162,21 +165,25 @@ const TimerProvider = ({ children }) => {
 
     if (notificationsEnabled && Notification.permission === "granted") {
       showNotification(
-        timerType === "focus" ? "Focus Session Complete!" : "Break Time Over!",
-        timerType === "focus" ? "Time for a break!" : "Ready to focus again?",
+        timerType === "focus"
+          ? "Focus Session Complete!"
+          : "Break Time Over!",
+        timerType === "focus"
+          ? "Time for a break!"
+          : "Ready to focus again?",
         true
       );
       playSessionCompleteSound();
     }
 
-    setTimerType(timerType === "focus" ? "break" : "focus");
-    loadTimerSettings(timerType === "focus" ? "break" : "focus");
+    const nextType = timerType === "focus" ? "break" : "focus";
+    setTimerType(nextType);
+    loadTimerSettings(nextType);
     setIsRunning(false);
     setIsPaused(false);
-  });
+  }, [timerType, initialSeconds, unlockAchievement, notificationsEnabled, loadTimerSettings]);
 
-  /* ----------------- Controls ----------------- */
-
+  // === CONTROLS ===
   const startTimer = () => {
     setIsRunning(true);
     setIsPaused(false);
