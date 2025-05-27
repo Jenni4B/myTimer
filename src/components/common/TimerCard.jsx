@@ -2,7 +2,7 @@
 import TimerControls from "../timer/TimerControls";
 import ErrorBoundary from "./ErrorBoundary";
 
-const Card = () => {
+const TimerCard = () => {
   
   // Get initialSeconds from context instead of trying to access the ref
   
@@ -20,4 +20,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default TimerCard;

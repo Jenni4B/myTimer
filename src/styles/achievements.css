@@ -1,0 +1,17 @@
+/*
+ * Achievements styles
+ */
+
+.achievements-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+}.achievement-card {
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--card-border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  width: calc(33.333% - 1rem); /* Three cards per row with gap */
+  box-sizing: border-box;
+}

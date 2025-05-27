@@ -1,5 +1,6 @@
 // STYYYYLES 💅🏼
 // made these for easier access so I don't have to scroll through App.css like crazy
+import './styles/achievements.css';
 import './styles/app.css';
 import './styles/buttons.css';
 import './styles/focusHelp.css';
@@ -13,7 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Card from "./components/common/Card";
+import TimerCard from './components/common/TimerCard';
 import Progress from "./components/analytics/Progress";
 import Settings from './components/settings/Settings';
 import SelfCarePage from './components/selfCare/selfCarePage';
@@ -55,7 +56,7 @@ function App() {
                     </nav>
       
                     <Routes>
-                      <Route path="/" element={<Card />} />
+                      <Route path="/" element={<TimerCard />} />
                       <Route path="/focusHelp" element={<FocusHelpPage />} />
                       <Route path="/selfCare" element={<SelfCarePage />} />
                       <Route path="/progress" element={<Progress />} />
