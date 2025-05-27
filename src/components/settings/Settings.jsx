@@ -19,7 +19,6 @@ const Settings = ({ setTheme, theme }) => {
 
   return (
     <div className="settings-container">
-      <h2>Settings</h2>
       <div className="settings-grid">
         {/* Left Column */}
         <div className="settings-column">

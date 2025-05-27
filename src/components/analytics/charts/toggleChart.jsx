@@ -20,7 +20,7 @@ const ToggleChart = () => {
     if (!formattedChartData.length) return []
 
     const now = new Date()
-
+    
     return formattedChartData.filter(({ date }) => {
       const sessionDate = new Date(date)
 
@@ -41,7 +41,10 @@ const ToggleChart = () => {
           return true
       }
     })
+
   }, [formattedChartData, timeFilter])
+
+  
 
   // Debugging: Check if filtered data exists
   useEffect(() => {

@@ -1,90 +1,82 @@
-/* PROGRESS PAGE STYLES */
+/* Progress.css */
+
+/* Main container */
 .progress-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1.5rem;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  color: white;
-  border-radius: 12px;
-}
-
-.progress-container h2 {
-  color: #fff;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-/* SESSION TRACKER AND CHART CONTAINER */
-.progress-stats {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 1.5rem;
-  width: 100%;
-}
-
-.sessionTracker {
-  flex: 1;
-  max-width: 400px;
-}
-
-.chart-container {
-  flex: 2;
-  max-width: 600px;
-  border-radius: 12px;
   padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.chart-container h2 {
-  margin-bottom: 1rem;
+/* Title styling */
+.progress-container h2.text-2xl {
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 
-/* TOGGLE CHART STYLES */
-.mainProgressBox {
-  width: 100%;
-}
-
-.timeFilterContainer,
-.chartTypeButtonContainer {
+/* Main content layout */
+.progress-content {
   display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-/* RESPONSIVE ADJUSTMENTS */
-@media (max-width: 640px) {
-  .progress-stats {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .sessionTracker,
-  .chart-container {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .timeFilterContainer,
-  .chartTypeButtonContainer {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .btn {
-    width: 100%;
-    max-width: 250px;
-    margin-bottom: 0.5rem;
-  }
-}
-
-/* CHART RESPONSIVENESS */
-.chart {
+  flex-direction: column;
+  gap: 1.5rem;
   width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
+}
+
+/* Session tracker and streak counter */
+.sessionTracker {
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Chart container */
+.chart-container {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  width: 100%;
+  min-height: 300px;
+  box-sizing: border-box;
+}
+
+/* Responsive layout */
+@media (min-width: 768px) {
+  .progress-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .sessionTracker {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .chart-container {
+    flex: 2;
+    min-width: 0; /* fix for flex-basis shrinking */
+  }
+}
+
+/* Button styling for chart toggles */
+.time-filter-buttons button, 
+.chart-type-buttons button {
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Animation for loading state */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.text-gray-500 p {
+  animation: pulse 1.5s infinite;
 }
