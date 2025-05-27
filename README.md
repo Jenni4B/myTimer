@@ -42,6 +42,12 @@ A customizable timer interface to help users maintain concentration during work 
 5. The Reset button is disabled while the timer is running. 
    If the timer is paused, the Reset button becomes available. The timer resets to the default value or the custom value
 
+6. Self-Care Page
+   Add self care tasks the user can complete
+
+7. Focus Page
+   Add your own favorite videos so you can find your favorite white noise or lofi without getting distracted by other stuff you like
+
 ## Future Features
 1. More themes? 👀
 
@@ -53,10 +59,6 @@ A customizable timer interface to help users maintain concentration during work 
 3. Plans to fix the progression bar on the timer card, visible but not moving
    3.1 I want it to be a rainbow as it progresses
    3.2 It's not in the spot that I want it to be
-
-4. Focus Page
-   Add self care tasks the user can complete (think, a simple ver. of the Finch App)
-
 
 
 ## Updates
