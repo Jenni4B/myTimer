@@ -29,3 +29,12 @@ body.dark .navbar ul li a:hover {
 body.dark .self-care-container{
   background-color: #392461;
 }
+
+body.dark .self-care-card {
+    background-color: #1b0c52;
+    color: #e0e0e0;
+  }
+  body.dark .task-item {
+    background-color: #2a1740;
+    color: #e0e0e0;
+  }

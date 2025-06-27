@@ -118,7 +118,7 @@ const SelfCareTasks = () => {
                 onChange={() => handleToggleComplete(task.id)}
               />
               <span>{task.text}</span>
-              <button onClick={() => handleDeleteTask(task.id)}>❌</button>
+              <button onClick={() => handleDeleteTask(task.id)}>🗑️</button>
             </div>
           ))
         )}

@@ -15,7 +15,7 @@ import { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
 import TimerCard from './components/common/TimerCard';
-import Progress from "./components/analytics/Progress";
+// import Progress from "./components/analytics/Progress";
 import Settings from './components/settings/Settings';
 import SelfCarePage from './components/selfCare/selfCarePage';
 import FocusHelpPage from './components/focusVideos/focusHelpPage';
@@ -59,7 +59,7 @@ function App() {
                       <Route path="/" element={<TimerCard />} />
                       <Route path="/focusHelp" element={<FocusHelpPage />} />
                       <Route path="/selfCare" element={<SelfCarePage />} />
-                      <Route path="/progress" element={<Progress />} />
+                      {/* <Route path="/progress" element={<Progress />} /> */}
                       <Route path="/achievements" element={<Achievements />} />
                       <Route path="/settings" element={<Settings setTheme={setTheme} theme={theme} />} />
                     </Routes>
