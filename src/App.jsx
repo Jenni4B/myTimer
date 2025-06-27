@@ -1,7 +1,7 @@
 // STYYYYLES 💅🏼
 // made these for easier access so I don't have to scroll through App.css like crazy
 import './styles/achievements.css';
-import './styles/app.css';
+import './styles/App.css';
 import './styles/buttons.css';
 import './styles/focusHelp.css';
 import './styles/navbar.css';
