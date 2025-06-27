@@ -1,7 +1,7 @@
 
 /* DARK MODE THEME */
 body.dark .App {
-    background: linear-gradient(45deg, #392461 30%, #7630c5 90%);
+    background: linear-gradient(45deg, #1e1235 30%, #411672 90%);
     color: #e0e0e0;
   }
   
@@ -17,7 +17,7 @@ body.dark .navbar ul li a {
   }
   
 body.dark .navbar {
-      background-color: #392461; /* Added dark mode background for navbar */
+      background-color: #1e1235; /* Added dark mode background for navbar */
     }
 body.dark .navbar ul li a:hover {
     color: #9a6de9;
@@ -27,7 +27,7 @@ body.dark .navbar ul li a:hover {
 /* Focus help card */
 
 body.dark .self-care-container{
-  background-color: #392461;
+  background-color: #1e1235;
 }
 
 body.dark .self-care-card {

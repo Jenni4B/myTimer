@@ -49,7 +49,7 @@ function App() {
                         <li><Link to="/">Timer</Link></li>
                         <li><Link to="/focusHelp">Focus Help</Link></li>
                         <li><Link to="/selfCare">Self Care</Link></li>
-                        <li><Link to="/progress">Progress</Link></li>
+                        {/* <li><Link to="/progress">Progress</Link></li> */}
                         <li><Link to="/achievements">Achievements</Link></li>
                         <li><Link to="/settings">Settings</Link></li>
                       </ul>
