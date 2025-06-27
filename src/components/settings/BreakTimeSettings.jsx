@@ -52,12 +52,15 @@ const BreakTimeSettings = () => {
             className="ml-2 p-2 bg-gray-800 border border-gray-600 rounded"
           />
         </div>
-        <button 
-          onClick={handleSave}
-          className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-        >
-          Save Break Settings
-        </button>
+
+        <div className="save-button">
+          <button 
+            onClick={handleSave}
+            className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Save Break Settings
+          </button>
+        </div>
       </div>
     </div>
   );

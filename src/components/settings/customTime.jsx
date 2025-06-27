@@ -60,12 +60,15 @@ const CustomTime = ({ onTimeChange }) => {
             className="ml-2 p-2 bg-gray-800 border border-gray-600 rounded"
           />
         </div>
-        <button 
-          onClick={handleSave}
-          className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-        >
-          Save Focus Settings
-        </button>
+
+        <div>
+          <button 
+            onClick={handleSave}
+            className="save-button bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Save Focus Settings
+          </button>
+        </div>
       </div>
     </div>
   );

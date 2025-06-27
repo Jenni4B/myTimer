@@ -1,6 +1,5 @@
 import BreakTimeSettings from "./BreakTimeSettings";
 import CustomTime from "./customTime";
-// import DataDownload from "../analytics/DownloadData";
 import NotificationSystem from "../feedback/NotificationSystem";
 import ThemeMode from "../hooks/themeMode";
 import useTimer from "../hooks/useTimer";
